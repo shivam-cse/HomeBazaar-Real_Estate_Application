@@ -1,0 +1,153 @@
+SCHEMA- REAL ESTATE PROJECT
+
+Agent Table :  
+Agent name
+Agent email
+Agent password
+Agent Contact Number
+Area of working
+Agent charges(varies agent to agent)
+
+Apartments Table : 
+Address 
+Seller id 
+Area 
+Apartment Type ( rent or sale )// R S
+Availability ( Default Available )
+No. of bedrooms
+Size
+Price of apartment
+
+Seller Table : 
+Seller email
+Seller Password
+Seller name 
+
+Buyer table :
+Buyer email
+Buyer Password
+Buyer name 
+
+
+Admin table:
+ Admin Name
+ Admin email
+ Admin Password
+
+Complaints table:
+  User email
+  Date of Complaint 
+  Complaint Title
+  Complaint Description
+
+Chat table:
+ Sender id 
+ Receiver id
+ Message 
+
+
+SIGN UP PAGE : 
+
+As a buyer/seller/agent
+
+Seller and buyer same sign up page ( name,email,password,mobile)
+ Agent ( same as above + AREA)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Assumptions 
+
+There will be only and only one agent for a particular area in the city.
+Every agent will be allotted with one area. No agent will handle more than one area.
+An Apartment can be given either for sale or for the rent but not both.
+Apartments that are sold once will not be taken into account again.
+The buyer can buy or take on rent only one apartment at a time.
+Apartments that are rented once can be rented again after the availability update by the seller.
+Sellers will be allowed to update the Apartment type from rent to sale only if the apartment availability is updated.
+The price provided by the seller for house rent will be monthly.
+
+
+
+
+
+
+
+
+
+User Interface  
+Page 1 :
+     Corner ( login  ) ( Link to page 2 )
+     Search homes (button) ( form page )( link to page 2)
+     Sell homes ( button ) ( link  page 2 )
+Page 2 :
+    Login and Password ( agent,buyer,seller ) 
+    New here ? Create Account ( page 3 )
+   If seller ( page 5 link )
+   If buyer ( page 13 link )
+   If agent ( page 9 link )
+Page 3 :
+Seller(6) or buyer (4)
+Page 4 : 
+ A Form for the requirements and then continue button ( page 8 )
+Page 5 :
+ Apartment Details ( page 12 link  sends seller id )
+ register apartment ( buttons ) ( page  6 )
+( Contact agent button ) ( link to page 7 )
+
+Page 6 :( apartment id = last id +1) 
+Form with details of the apartment should be filled by the seller. 
+ ( Dashboard ) (link to page 5 )
+
+ Page 7 : ( area )
+  Show contact details of agent ( back to their home page after here)
+  Page 5 ( for seller)
+  Page 13 (for buyer )
+Page 8 : ( buyer id )
+       Homes acc to his requirements 
+       Contact agent ( button ) (page 7 link )
+       Go to dashboard (or Back Button )(page 13)
+Page 9 : two buttons 
+    Update Apartment ( change rent to sale ) ( link to page 10 )
+    Add update and apartment deal ( add to purchase table ) ( link to page 11)
+Page 10 :
+   Seller id and apartment id input taken and updated values taken by agent only if agent belong to his/her area ( price and apt_type only )
+Page 11 :
+   A form to take all inputs regarding the sale done by the agent.
+Page 12 : ( seller id ) 
+  Display details of seller apartments and a back button 
+Page 13 : ( buyer id ) 
+   Contact agent button ( link to page 7 ) 
+   Update requirements ( link to page 4 )
+   Home checkout (button ) ( link to page 8 )
+    
+   
+    Page 7, 8 ,9       ( Shivam Sahu )
+    Page 3,4,6,11    ( Mritunjay Kumar )
+    Page 1,2,13         ( Ankit Singh )
+    Page 10,12,5      ( Om Prakash )
+
+
+
