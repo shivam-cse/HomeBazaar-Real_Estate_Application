@@ -2,26 +2,17 @@ const mongoose = require('mongoose');
 const { Schema } = require('mongoose');
 
 const ChatSchema = new Schema({
-    user:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref:'user' 
-    },
-    title:{
+    senderEmail:{
         type:String,
         required:true
     },
-    description:{
+    ReceiverEmail:{
         type:String,
         required:true
     },
-    tag:{
+    message:{  
         type:String,
-        default:"General"
-    },
-    date:{
-        
-        type:Date,
-        default:Date.now()
+        required:true
     }
 
 })
