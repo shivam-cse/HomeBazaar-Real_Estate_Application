@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = require('mongoose');
 
+//Schema for Admin
 const AdminSchema = new Schema({
     name:{
         type:String,

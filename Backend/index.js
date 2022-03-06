@@ -1,16 +1,25 @@
-var express = require('express')
+var express = require('express')  //Allows you to define routes of your application based on HTTP methods and URLs.
 const connectToMongo = require('./database/db')
+const dotenv = require('dotenv').config()
 var app = express()
-const PORT = 5000
 
+const PORT = process.env.PORT
+
+//connection from the database
 connectToMongo();
+
+//parse requests of content-type - application/json
 app.use(express.json());
 
-// app.use('/api/auth', require('./routes/auth'));
-app.get('/', (req, res) => {
-    res.send("This is homeBazaar real estate office")
-})
+//Routes for all api
+app.use('/api/auth/seller', require('./routes/authentication/seller'));
+app.use('/api/auth/admin', require('./routes/authentication/admin'));
+app.use('/api/auth/buyer', require('./routes/authentication/buyer'));
+app.use('/api/auth/agent', require('./routes/authentication/agent'));
+app.use('/api/apartment/', require('./routes/apartment'));
+app.use('/api/complaint/', require('./routes/complaint'));
 
+//our server listing at port number 5000
 app.listen(PORT, () =>{
     console.log(`Server is runing at port ${PORT}`)
 })

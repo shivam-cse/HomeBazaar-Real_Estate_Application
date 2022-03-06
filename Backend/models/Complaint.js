@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = require('mongoose');
 
+//Schema for Complaint
 const ComplaintSchema = new Schema({
     UserEmail:{
         type:String,

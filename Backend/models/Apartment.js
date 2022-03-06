@@ -1,27 +1,29 @@
 const mongoose = require('mongoose');
 const { Schema } = require('mongoose');
 
+//Schema for Apartment
 const ApartmentSchema = new Schema({
-    Seller:{
+    seller:{
         type: mongoose.Schema.Types.ObjectId,
-        ref:'Seller' 
+        ref:'seller' 
     },
-    Address:{
+    address:{
         type:String,
         required:true
     },
-    Area:{
+    area:{
         type:String,
         required:true
     },
     type:{
-        type:String
+        type:String,
+        required:true
     },
-    Availability:{
+    availability:{
         type:String,
         default:"Available"
     },
-    Bedrooms:{
+    bedrooms:{
         type:Number,
         required:true
     },

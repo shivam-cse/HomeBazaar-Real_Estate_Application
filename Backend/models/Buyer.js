@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = require('mongoose');
 
+//Schema for Buyer
 const BuyerSchema = new Schema({
     name:{
         type:String,
