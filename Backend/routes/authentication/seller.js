@@ -18,14 +18,14 @@ router.post('/signup', [
 ], async (req, res) => {
 
   //this is to confirm whether signup is successfully done or not.
-  let signupSuccess = false;
+  let success = false;
 
   //validate to the user data 
   const errors = validationResult(req);
 
   //if the user data is not as we expect then we will return the error message with 400 status code.
   if (!errors.isEmpty()) {
-    return res.status(400).json({ signupSuccess, errors: errors.array() });
+    return res.status(400).json({ success, errors: errors.array() });
   }
 
   // Get user input
@@ -36,7 +36,7 @@ router.post('/signup', [
 
   //if the user already exist then we will return error message with 400 status code 
   if (user) {
-    return res.status(400).json({ signupSuccess, error: "This email id already exist! Please try to login" })
+    return res.status(400).json({ success, error: "This email id already exist! Please try to login" })
   }
 
   try {
@@ -55,19 +55,19 @@ router.post('/signup', [
     })
 
     //we reach here its mean that we have done signup successfully.so that signupSuccess = true
-    signupSuccess = true;
+    success = true;
     const data = {
       user: {
         id: user._id
       }
     }
     //Create   token 
-    const authToken = jwt.sign(data, jwt_secret);
-    res.json({ signupSuccess, authToken })
+    const authtoken = jwt.sign(data, jwt_secret);
+    res.json({ success, authtoken })
 
   } catch (error) {
     console.log(error.message)
-    res.status(500).json({ error: "Some error occured" })
+    res.status(500).json({ success, error: "Some error occured" })
   }
 })
 
@@ -77,28 +77,28 @@ router.post('/login', [
   body('password', 'Password must be atleast 5 characters').isLength({ min: 5 }),
   body('email', 'Enter a valid email id').isEmail()
 ], async (req, res) => {
+  let success = false;
 
   //validate to the user data 
   const errors = validationResult(req);
 
   //if the user data is not as we expect then we will retuen the error message with 400 status code.
   if (!errors.isEmpty()) {
-    let loginSuccess = false;
-    return res.status(400).json({ loginSuccess, errors: errors.array() });
+    
+    return res.status(400).json({ success, errors: errors.array() });
   }
 
   // Get user input
   const { email, password } = req.body;
 
   try {
-    let loginSuccess = false;
 
     //get user credentials from database & // Validate if user exist in our database
     let user = await User.findOne({ email });
 
     //if the user does not exist then we will return error message with 400 status code
     if (!user) {
-      return res.status(400).json({ loginSuccess, error: "please try to login with correct credentails" })
+      return res.status(400).json({ success, error: "please try to login with correct credentails" })
     }
 
     //match the password 
@@ -106,7 +106,7 @@ router.post('/login', [
 
     //if the password not match then we will return 400 status code
     if (!passwordCompare) {
-      return res.status(400).json({ loginSuccess, error: "please try to login with correct credentails" })
+      return res.status(400).json({ success, error: "please try to login with correct credentails" })
     }
 
     const data = {
@@ -116,31 +116,36 @@ router.post('/login', [
     }
 
     // JWT to sign the credentials
-    const authToken = jwt.sign(data, jwt_secret);
+    const authtoken = jwt.sign(data, jwt_secret);
 
-    loginSuccess = true;  //login is successfully done
-    res.json({ loginSuccess, authToken })
+    success = true;  //login is successfully done
+    res.json({ success, authtoken })
 
   } catch (error) {
     console.log(error.message)
-    res.status(500).json({ error: "Invalid Credentials" })
+    res.status(500).json({success, error: "Invalid Credentials" })
   }
 })
 
-//Router 3 : Get user details using jwt token POST : api/auth/seller/getUser - Login required
-router.post('/getUser', fetchUser, async (req, res) => {
+//Router 3 :Get user details using jwt token GET : api/auth/seller/getUser - Login required
+router.get('/getUser', fetchUser, async (req, res) => {
+  let success = false;
   try {
     //get the user id 
     const userId = req.user.id;
-
+    //finding user with auth token (user id)
+    const temp = await User.findById(userid)
+    if (temp == null) {
+        return res.status(404).json({success, error:"wrong credentials"});
+    }
     //get all the details about the user except password
     const user = await User.findById(userId).select("-password");
-
-    res.json({ user });
+    success = true;
+    res.json({success, user});
 
   } catch (error) {
     console.log(error.message)
-    res.status(500).send({ error: "internal server error-" });
+    res.status(500).send({success, error: "internal server error" });
   }
 
 })
@@ -148,6 +153,7 @@ router.post('/getUser', fetchUser, async (req, res) => {
 
 //Router 4 : Update user details using PUT : api/auth/seller/update - Login required
 router.put('/update', fetchUser, async (req, res) => {
+  let success = false;
   try {
     //get the user id 
     const userId = req.user.id;
@@ -160,24 +166,25 @@ router.put('/update', fetchUser, async (req, res) => {
 
     if (!user) {
       //user is not present into database.
-      return res.status(404).send("this user not found");
+      return res.status(404).json({success, error:"this user not found"});
     }
 
     if (updatedName) {
       if (updatedName.length < 3)
-        return res.status(400).json({ errors: "Enter  a valid name" });
+        return res.status(400).json({success,  errors: "Enter  a valid name" });
       user.name = updatedName
     }
 
     //save the updated data 
     let updatedUser = await user.save();
-
+    
+    success = true
     //return res with updated user
-    res.json({ updatedUser });
+    res.json({success, updatedUser });
 
   } catch (error) {
     console.log(error.message)
-    res.status(500).send({ error: "internal server error-" });
+    res.status(500).send({success, error: "internal server error-" });
   }
 
 })
@@ -185,11 +192,9 @@ router.put('/update', fetchUser, async (req, res) => {
 
 //Router 5 : Update user Password using PUT : api/auth/seller/updatePassword - Login required
 router.put('/updatePassword', fetchUser, async (req, res) => {
-  let updateSuccess = false;
+  let success = false;
   try {
     //get the user id 
- 
-
     const userId = req.user.id;
 
     //get the old and new password value
@@ -201,7 +206,7 @@ router.put('/updatePassword', fetchUser, async (req, res) => {
 
     if (!user) {
       //user is not present into database.
-      return res.status(404).json({ updateSuccess, eroor: "this user not found" });
+      return res.status(404).json({ success, eroor: "this user not found" });
     }
 
     //match the password 
@@ -209,7 +214,7 @@ router.put('/updatePassword', fetchUser, async (req, res) => {
 
     //if the password not match then we will return 400 status code
     if (!passwordCompare) {
-      return res.status(400).json({ updateSuccess, error: "Please enter the correct old password" })
+      return res.status(400).json({success, error: "Please enter the correct old password" })
     }
 
     //generate salt
@@ -221,14 +226,14 @@ router.put('/updatePassword', fetchUser, async (req, res) => {
 
     //save the updated data 
     let updatedUser = await user.save()
-    updateSuccess = true;
 
+    success = true;
     //return res with updated user
-    res.json({ updateSuccess, updatedUser });
+    res.json({ success, message:"Passwrd has been successfully updated" });
 
   } catch (error) {
     console.log(error.message)
-    res.status(500).send({ updateSuccess, error: "internal server error-" });
+    res.status(500).send({ success, error: "internal server error" });
   }
 
 })
@@ -260,6 +265,21 @@ router.delete('/delete/:id', fetchUser, async (req, res) => {
     res.status(500).send({ error: "internal server error-" });
   }
 
+})
+
+//Route 7 :This api to get all user  GET : api/seller/alluser - login required
+router.get('/alluser', async (req, res) => {
+
+  try {
+      // find the all apartment of particular seller from database
+      const users = await User.find();
+      //sent the response to client
+      res.json(users)
+
+  } catch (error) {
+      //handle the error
+      res.status(500).json({ error: "internal server error" });
+  }
 })
 
 module.exports = router;

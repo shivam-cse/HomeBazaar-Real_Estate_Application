@@ -14,12 +14,13 @@ router.post('/add', fetchUser, [
     body('size', 'Apartment size must be required ').notEmpty(),
     body('price', 'Apartment price  must be required ').notEmpty(),
 ], async (req, res) => {
+    let success = false
 
     try {
         // Finds the validation errors in this request and wraps them in an object with handy functions
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+            return res.status(400).json({success, errors: errors.array() });
         }
 
         const { address, area, type, bedrooms, size, price } = req.body;
@@ -30,9 +31,11 @@ router.post('/add', fetchUser, [
         //add the new apartment into database
         const addApartment = await newApartment.save();
         //send the response
-        res.json(addApartment)
+        success = true;
+        res.json({success, addApartment})
     } catch (error) {
-        res.status(500).send({ error: "internal server error-" });
+        console.log(error.message);
+        res.status(500).send({success, error: "internal server error-" });
     }
 })
 
@@ -48,6 +51,7 @@ router.get('/fetchAll', async (req, res) => {
 
     } catch (error) {
         //access denied
+        console.log(error.message);
         res.status(500).send({ error: "internal server error" });
     }
 })
@@ -64,6 +68,7 @@ router.get('/fetchSellerApartment', fetchUser, async (req, res) => {
 
     } catch (error) {
         //handle the error
+        console.log(error.message);
         res.status(500).send({ error: "internal server error" });
     }
 })
@@ -121,6 +126,7 @@ router.put('/update/:id', fetchUser, async (req, res) => {
         //send response 
         res.json(updatedApartment)
     } catch (error) {
+        console.log(error.message);
         res.status(500).send({ error: "internal server error-" });
     }
 
@@ -150,10 +156,29 @@ router.delete('/delete/:id', fetchUser, async (req, res) => {
         //send the message that  apartment has been successfully deleted 
         res.json({ message: "Aprtment successfully deleted" });
     } catch (error) {
+        console.log(error.message);
         res.status(500).send({ error: "internal server error" });
     }
 
 })
+
+
+//Route 6 :This api to get all Apartment of particular area api/apartment/getApartment/:area - login required
+router.get('/getApartment/:area', async (req, res) => {
+
+    try {
+        // find the all apartment of particular seller from database
+        const getAllUsersApartment = await Apartment.find({ area: req.params.area });
+
+        //sent the response to client
+        res.json(getAllUsersApartment)
+
+    } catch (error) {
+        //handle the error
+        res.status(500).send({ error: "internal server error" });
+    }
+})
+
 
 module.exports = router;
 

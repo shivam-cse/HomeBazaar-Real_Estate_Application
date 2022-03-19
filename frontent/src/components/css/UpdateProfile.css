@@ -1,0 +1,16 @@
+
+.update-container{
+    width: 50%;
+    margin: auto;
+    margin-top: 25px;
+    padding: 10px;
+    background-color: whitesmoke;
+    border-radius: 20px;
+    border: 2px solid rgb(224, 216, 216);
+}
+
+.update-top{
+     font-size: 25px;
+     text-align: center;
+     margin-bottom: 5px;
+}

@@ -1,13 +1,14 @@
 var express = require('express')  //Allows you to define routes of your application based on HTTP methods and URLs.
 const connectToMongo = require('./database/db')
 const dotenv = require('dotenv').config()
+var cors = require('cors')
 var app = express()
-
 const PORT = process.env.PORT
 
 //connection from the database
 connectToMongo();
 
+app.use(cors())
 //parse requests of content-type - application/json
 app.use(express.json());
 

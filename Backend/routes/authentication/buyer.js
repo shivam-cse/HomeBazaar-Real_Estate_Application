@@ -20,9 +20,10 @@ router.post(
     ],
     async (req, res) => {
         //If there are validation error, return bad request and errors
+        let success = false;
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+            return res.status(400).json({success, errors: errors.array() });
         }
 
 
@@ -32,7 +33,7 @@ router.post(
             //Check whether the user with this email exists already
             let user = await User.findOne({ email: req.body.email });
             if (user) {
-                return res.status(400).json({ error: "Sorry a user with this email already exists" });
+                return res.status(400).json({success, error: "Sorry a user with this email already exists" });
             }
             // genrating salt of lenght 10 for password 
             const salt = await bcrypt.genSalt(10);
@@ -52,11 +53,12 @@ router.post(
             };
 
             //generating auth token
-            const authTOKEN = jwt.sign(data, jwt_secret);   // generating AUTH-TOKEN for user
-            res.json({ authTOKEN });
+            const authtoken = jwt.sign(data, jwt_secret);   // generating AUTH-TOKEN for user
+            success = true
+            res.json({success, authtoken });
         } catch (error) {
             console.error(error.message);
-            res.status(500).send("Some ERROR occured");
+            res.status(500).json({success, error: "Some ERROR occured"});
         }
     }
 );
@@ -70,9 +72,10 @@ router.post(
     ],
     async (req, res) => {
            //If there are validation error, return bad request and errors
+           let success = false;
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+            return res.status(400).json({success, errors: errors.array() });
         }
 
         // ideal case : when user gives email and password correctly(in right format as well)
@@ -83,12 +86,12 @@ router.post(
             let user = await User.findOne({ email });
 
             if (!user)
-                return res.status(400).json({ error: "Please try to login using correct credentials" });
+                return res.status(400).json({success, error: "Please try to login using correct credentials" });
 
             ///comparing the password
             const passwordCompare = await bcrypt.compare(password, user.password);
             if (!passwordCompare)
-                return res.status(400).json({ error: "Please try to login using correct credentials" });
+                return res.status(400).json({success, error: "Please try to login using correct credentials" });
         
             // if user entered credentials  matches
             const data = {
@@ -96,57 +99,67 @@ router.post(
                     id: user.id,
                 },
             };
-            const authTOKEN = jwt.sign(data, jwt_secret);   // generating AUTH-TOKEN for user
-            res.json({ authTOKEN });
+            const authtoken = jwt.sign(data, jwt_secret);   // generating AUTH-TOKEN for user
+            success = true
+            res.json({success, authtoken });
         } catch (error) {
             console.error(error.message);
-            res.status(500).send("Internal SERVER error !!!!");
+            res.status(500).json({success, error:"Internal SERVER error !!!!"});
         }
     }
 );
 
 // ROUTE 3: get details of loggedIn  buyer using : POST "/api/auth/buyer/getUser (login required)
-router.post("/getUser", fetchuser, async (req, res) => {
+router.get("/getUser", fetchuser, async (req, res) => {
+    let success = false;
     try {
 
         const userId = req.user.id
+        //finding user with auth token (user id)
+        const temp = await User.findById(userId)
+        if (temp == null) {
+            return res.status(404).json({success, error:"wrong credentials"});
+        }
         //find the existing user 
         const user = await User.findById(userId).select("-password");  
-        res.send(user);
+        success = true;
+        res.json({success, user});
     } catch (error) {
         console.error(error.message);
-        res.status(500).send("Internal SERVER error !!!!");
+        res.status(500).json({success, error:"Internal SERVER error !!!!"});
     }
 });
 
 // ROUTE 4: update details of buyer  using : PUT"/api/auth/buyer/update (login required)
 router.put("/update", fetchuser, async (req, res) => {
+    let success = false;
 
     try {
         const { name } = req.body;
         const UpdatedBuyer = {};
         if (name) {
             if(name.length < 3)
-            return res.status(400).json({ errors: "Enter  a valid name" });
-   
+            return res.status(400).json({success, errors: "Enter  a valid name" });
+
            UpdatedBuyer.name = name
         }
     
         const userId = req.user.id
        //update and save
         newUser = await User.findByIdAndUpdate(userId, { $set: UpdatedBuyer }, { new: true })
-
-        res.send(newUser);
+        success = true;
+        res.json({success, newUser});
 
 
     } catch (error) {
         console.error(error.message);
-        res.status(500).send("Internal SERVER error !!!!");
+        res.status(500).json({success, error: "Internal SERVER error !!!!"});
     }
 });
 
 // Route - 5 update a buyer Password using : POST "/api/auth/buyer/updatePassword" , login required  
 router.put("/updatePassword", fetchuser, async (req, res) => {
+    let success = false
     try {
         const { oldPassword, newPassword } = req.body;
   
@@ -161,7 +174,7 @@ router.put("/updatePassword", fetchuser, async (req, res) => {
   
         // if any admin is not  found with ID
         if (!buyer) {
-            return res.status(400).json({ error: "PLease try to login with correct credential" });
+            return res.status(400).json({success, error: "PLease try to login with correct credential" });
         }
   
         //  if password is passed and to update
@@ -169,7 +182,7 @@ router.put("/updatePassword", fetchuser, async (req, res) => {
   
             // if password is not match with user
             if (bcrypt.compareSync(oldPassword, buyer.password) == false) {
-                return res.status(400).json({ error: "PLease enter correct Old password" });
+                return res.status(400).json({success, error: "PLease enter correct Old password" });
             }
   
             // genrating salt of lenght 10 for password 
@@ -181,15 +194,16 @@ router.put("/updatePassword", fetchuser, async (req, res) => {
             newbuyerDetail.password = password;
         }
         else {
-            return res.status(400).json({ errors: "Please enter valid  Password" });
+            return res.status(400).json({success, errors: "Please enter valid  Password" });
         }
   
         buyer = await User.findByIdAndUpdate(userid, { $set: newbuyerDetail }, { new: true }).select("-password");
-        res.send("Your password is succesfully updated");
+        success = true;
+        res.json({success});
   
     } catch (error) {
         console.error(error.message);
-        res.status(500).send("Internal Serveral error");
+        res.status(500).json({success, error:"Internal Serveral error"});
     }
   })
 
@@ -222,5 +236,20 @@ router.delete("/delete/:id", fetchuser,
         }
     }
 );
+
+//Route 7 :This api to get all user  GET : api/buyer/alluser - login required
+router.get('/alluser', async (req, res) => {
+
+    try {
+        // find the all apartment of particular seller from database
+        const users = await User.find();
+        //sent the response to client
+        res.json(users)
+
+    } catch (error) {
+        //handle the error
+        res.status(500).json({ error: "internal server error" });
+    }
+})
 
 module.exports = router;

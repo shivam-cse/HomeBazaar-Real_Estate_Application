@@ -1,0 +1,30 @@
+#cont {
+  height: 91.5vh;
+  width: 100%;
+  /* decreasing opacity of image */
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.5)
+    ),
+    url("../../img/home.jpg") center/cover no-repeat;
+  align-self: stretch;
+  overflow-x: hidden; /*hiding overflow in width*/
+}
+
+#heading {
+  margin-left: 20%;
+}
+
+#searchSection {
+  max-width: 50%;
+  margin: 0 auto;
+  margin-top: 10%;
+  margin-bottom: 5%;
+}
+
+#sloganCardImg {
+  height: 40px;
+  width: 40px;
+  margin: 10px auto;
+  border-radius: 10px;
+}
