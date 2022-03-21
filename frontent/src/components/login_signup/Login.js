@@ -1,13 +1,7 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../css/UpdateProfile.css'
-import AlertContext from '../context/AlertContext'
-import ALert from '../Alert'
 const Login = () => {
-
-    // using to accessed data without passing the props down manually to each level(component hierarch)
-    const context = useContext(AlertContext);
-    const { alert, addAlert } = context;
 
     const [credentials, setCredentials] = useState({ email: "", password: "" })
     const [userType, setuserType] = useState("")
@@ -17,7 +11,7 @@ const Login = () => {
         const response = await fetch(
             `http://localhost:5000/api/auth/${userType}/login`,
             {
-                method: "POST",
+                method: "POST", 
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -30,18 +24,10 @@ const Login = () => {
             // save the token and redirect
             localStorage.setItem('token', json.authtoken)
             localStorage.setItem('userType', userType)
-            addAlert({
-                type: 'success',
-                msg: 'Login Successfully'
-            })
-
             navigate('/')
         }
         else {
-            addAlert({
-                type: 'danger',
-                msg: 'Invalid credential'
-            })
+            alert("Invalid Credentials !")
         }
     }
     const onChange = (e) => {
@@ -53,23 +39,20 @@ const Login = () => {
     }
 
     return (
-        <div>
-            <ALert />
-
-            <div className='update-container'>
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-3">
-                        <label htmlFor="email" className="form-label">Email address</label>
-                        <input type="email" className="form-control" id="email" value={credentials.email} name="email" aria-describedby="emailHelp"
-                            onChange={onChange} />
-                        <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="password" className="form-label">Password</label>
-                        <input type="password" id="password" value={credentials.password} name="password" className="form-control"
-                            onChange={onChange} />
-                    </div>
-                    <select className="mb-3 form-select" aria-label="Default select example" onChange={onChangeType} required>
+        <div className='update-container'>
+            <form onSubmit={handleSubmit}>
+                <div className="mb-3">
+                    <label htmlFor="email" className="form-label">Email address</label>
+                    <input type="email" className="form-control" id="email" value={credentials.email} name="email" aria-describedby="emailHelp"
+                        onChange={onChange} />
+                    <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="password" className="form-label">Password</label>
+                    <input type="password" id="password" value={credentials.password} name="password" className="form-control"
+                        onChange={onChange} />
+                </div>
+                <select className="mb-3 form-select" aria-label="Default select example" onChange={onChangeType} required>
                         <option value="">Login as </option>
                         <option value="seller">Seller</option>
                         <option value="buyer">Buyer</option>
@@ -77,10 +60,9 @@ const Login = () => {
                         <option value="agent">Agent</option>
                     </select>
 
-                    <button type="submit" className="btn btn-primary" >Submit</button>
-                </form>
+                <button type="submit" className="btn btn-primary" >Submit</button>
+            </form>
 
-            </div>
         </div>
     )
 }

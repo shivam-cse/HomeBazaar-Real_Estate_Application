@@ -1,6 +1,5 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import '../css/UpdateProfile.css'
-import AlertContext from '../context/AlertContext'
 import { useNavigate, useLocation } from 'react-router-dom';
 
 export default function UpdateProfile() {
@@ -9,8 +8,7 @@ export default function UpdateProfile() {
 
     //it is for handle the state of updateProfile
     const [updateProfile, setupdateProfile] = useState({name:userDetails.name, number:userDetails.contact, area:userDetails.area, charges:userDetails.charges});
-    const context = useContext(AlertContext);
-    const { alert, addAlert } = context;
+    
     //to navigate 
     const navigate = useNavigate();
     const host = "http://localhost:5000";
@@ -32,20 +30,12 @@ export default function UpdateProfile() {
         const json = await response.json();
         console.log(json);
         if(json.success){
-            addAlert({
-                type: 'success',
-                msg: 'Profile Updated Successfully'
-            })
             navigate('/agent/dashboard')
-            
+            alert("Updated")
         }
         else{
 
-           
-            addAlert({
-                type: 'danger',
-                msg: json.error
-            })
+            alert("Not updated")
         }
     }
 
