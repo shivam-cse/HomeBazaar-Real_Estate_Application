@@ -1,9 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import Spinner from '../Spinner'
 import UserItem from './UserItem';
+import AlertContext from '../context/AlertContext'
+import ALert from '../Alert';
+
 const host = 'http://localhost:5000';
 
+
 function ViewUser() {
+
+    const context = useContext(AlertContext);
+    const { addAlert } = context;
 
     const [buyers, setbuyer] = useState([]);
     const [sellers, setseller] = useState([]);
@@ -20,12 +27,24 @@ function ViewUser() {
                     "Content-Type": "application/json",
                     'auth-token': localStorage.getItem('token')
                 },
-
             }
         );
 
         const json = await response.json();
-        console.log(json)
+
+        if (json.success) {
+            addAlert({
+                type: 'success',
+                msg: 'User Deleted Successfully'
+            })
+        }
+        else {
+            addAlert({
+                type: 'danger',
+                msg: json.error
+            })
+            return;
+        }
 
         if (userType === 'buyer') {
             const newbuyers = buyers.filter((buyer) => { return buyer._id !== id })
@@ -80,6 +99,8 @@ function ViewUser() {
     }, [])
 
     return (
+        <>
+        <ALert/>
         <div className='row' style={{ overflowX: 'hidden' }}>
             <div className='col-md-4'>
                 {lodding && <Spinner />}
@@ -112,6 +133,7 @@ function ViewUser() {
                 </div>}
             </div>
         </div>
+        </>
     )
 }
 

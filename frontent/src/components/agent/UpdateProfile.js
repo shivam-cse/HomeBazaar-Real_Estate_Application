@@ -10,7 +10,7 @@ export default function UpdateProfile() {
     //it is for handle the state of updateProfile
     const [updateProfile, setupdateProfile] = useState({name:userDetails.name, number:userDetails.contact, area:userDetails.area, charges:userDetails.charges});
     const context = useContext(AlertContext);
-    const { alert, addAlert } = context;
+    const {  addAlert } = context;
     //to navigate 
     const navigate = useNavigate();
     const host = "http://localhost:5000";
@@ -39,9 +39,7 @@ export default function UpdateProfile() {
             navigate('/agent/dashboard')
             
         }
-        else{
-
-           
+        else{ 
             addAlert({
                 type: 'danger',
                 msg: json.error

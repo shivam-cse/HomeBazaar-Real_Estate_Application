@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState , useContext} from 'react'
 import '../css/Dashboard.css'
 import AlertContext from '../context/AlertContext'
 import { useNavigate } from 'react-router-dom';
@@ -19,7 +19,10 @@ export default function UpdatePassword() {
 
         //if the user entered new password is not same
          if(updatePassword.cnewPassword !== updatePassword.newPassword){
-             alert("Please enter coorect new password")
+             addAlert({
+                type: 'danger',
+                msg: 'Please Enter correct new password '
+            })
              return;
          }
         //API call to update the password our user
@@ -42,8 +45,10 @@ export default function UpdatePassword() {
             navigate('/buyer/dashboard')
         }
         else {
-
-            alert("Not updated")
+            addAlert({
+                type: 'danger',
+                msg: json.error
+            })
         }
     }
     const onChange = (e) => {
