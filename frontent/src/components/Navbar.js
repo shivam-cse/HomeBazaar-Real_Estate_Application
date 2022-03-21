@@ -15,13 +15,13 @@ function Navbar() {
         // remove authtoken from local storage and redirect it
         localStorage.removeItem('token');
         // navigate user to login page
-        navigate("/");
+        navigate("/login");
     }
 
     const handleOnclickUser = () => {
-        let user = localStorage.getItem('userType');
-        let url = `/${user}/dashboard`;
-        navigate(url)
+         let user = localStorage.getItem('userType');
+         let url = `/${user}/dashboard`;
+         navigate(url)
     }
 
     const handleComplaintOnclick = () => {
@@ -44,7 +44,7 @@ function Navbar() {
                         </li>
                         <li className="nav-item">
                             <Link className={`nav-link ${location.pathname === '/about' ? 'active' : ""}`} aria-current="page" to="/about">
-                                About
+                                About 
                             </Link>
                         </li>
                         <li className="nav-item">
@@ -66,9 +66,9 @@ function Navbar() {
                         </div>
                         <Link className="btn btn-primary mx-1" to={'/login'} role="button" aria-disabled="true">Login</Link >
                     </div> : <div className='d-flex'>
-                        <button className="btn btn-primary mx-3" style={{ paddingTop: "0px", paddingBottom: "0px" }} onClick={handleComplaintOnclick} role="button" aria-disabled="true">Complaint</button>
-                        <button className="btn btn-primary mx-3" style={{ paddingTop: "0px", paddingBottom: "0px" }} onClick={handleOnclick} role="button" aria-disabled="true">Logout</button>
-                        <button className="btn mx-3" onClick={handleOnclickUser} role="button" aria-disabled="true"><i className="fa-solid fa-circle-user" style={{ fontSize: "25px" }}></i></button>
+                    <button className="btn btn-primary mx-3" style={{paddingTop:"0px", paddingBottom:"0px"}}  onClick={handleComplaintOnclick} role="button" aria-disabled="true">Complaint</button>
+                    <button className="btn btn-primary mx-3" style={{paddingTop:"0px", paddingBottom:"0px"}}  onClick={handleOnclick} role="button" aria-disabled="true">Logout</button>
+                    <button className="btn mx-3" onClick={handleOnclickUser} role="button" aria-disabled="true"><i className="fa-solid fa-circle-user" style={{fontSize:"25px"}}></i></button>
                     </div>}
                 </div>
             </div>
