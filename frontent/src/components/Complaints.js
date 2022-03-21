@@ -1,11 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState , useContext} from 'react'
 import { useNavigate } from 'react-router-dom';
-
+import AlertContext from './context/AlertContext'
 
 const Complaints = () => {
 
     const [complaint, setcomplaint] = useState({ email: "", title: "", description: "" })
     let navigate = useNavigate();
+
+    const context = useContext(AlertContext);
+    const { addAlert } = context;
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const { email, title, description } = complaint;
@@ -21,8 +25,20 @@ const Complaints = () => {
         );
         
         const json = await response.json();
-        alert('Registered Complaint successfully ! redirecting to home in 5 seconds')
-        navigate("/");
+       if (json.success) {
+            addAlert({
+                type: 'success',
+                msg: 'Complaint Register Successfully'
+            })
+            navigate("/");
+        }
+        else {
+            addAlert({
+                type: 'danger',
+                msg: json.error
+            })
+            return;
+        }
     }
     const onChange = (e) => {
         setcomplaint({ ...complaint, [e.target.name]: e.target.value })
