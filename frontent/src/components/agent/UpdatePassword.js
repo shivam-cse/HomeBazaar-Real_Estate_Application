@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import '../css/UpdateProfile.css'
-
+import AlertContext from '../context/AlertContext'
 import { useNavigate } from 'react-router-dom';
 export default function UpdatePassword() {
 
     //it is for handle the state of updated Password
     const [updatePassword, setupdatePassword] = useState({ oldPassword: "", newPassword: "", cnewPassword: "" });
-
+    const context = useContext(AlertContext);
+    const { alert, addAlert } = context;
     //to navigate 
     const navigate = useNavigate();
     const host = "http://localhost:5000";
@@ -34,11 +35,18 @@ export default function UpdatePassword() {
         const json = await response.json();
         console.log(json);
         if (json.success) {
+            addAlert({
+                type: 'success',
+                msg: 'Password Updated Successfully'
+            })
             navigate('/agent/dashboard')
         }
         else {
 
-            alert("Not updated")
+            addAlert({
+                type: 'danger',
+                msg: json.error
+            })
         }
     }
     const onChange = (e) => {
