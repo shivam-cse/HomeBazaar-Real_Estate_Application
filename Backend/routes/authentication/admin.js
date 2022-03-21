@@ -21,12 +21,18 @@ router.post(
     }),
   ],
   async (req, res) => {
-     
+
     let success = false;
     //If there are Validation error, return bad request and errors
     const errors = validationResult(req);
+
+    const extractedErrors = []
+    errors.array().map(err => extractedErrors.push(err.msg))
+    console.log(extractedErrors)
+
     if (!errors.isEmpty()) {
-      return res.status(400).json({success , errors: errors.array() });
+
+      return res.status(400).json({ success, errors: errors.array() });
     }
 
 
@@ -35,7 +41,7 @@ router.post(
       //Check whether the user with this email exists already
       let user = await User.findOne({ email: req.body.email });
       if (user) {
-        return res.status(400).json({success , error: "Sorry a user with this email already exists" });
+        return res.status(400).json({ success, error: "Sorry a user with this email already exists" });
       }
 
       const salt = await bcrypt.genSalt(10); // salt for increased security of password
@@ -54,10 +60,10 @@ router.post(
 
       const authtoken = jwt.sign(data, jwt_secret);   // generating AUTH-TOKEN for user
       success = true;
-      res.json({success , authtoken });
+      res.json({ success, authtoken });
     } catch (error) {
       console.error(error);
-      res.status(500).json({success , error : "Some ERROR occured"});
+      res.status(500).json({ success, error: "Some ERROR occured" });
     }
   }
 );
@@ -70,12 +76,12 @@ router.post(
     body("password", "Password cannot be blank").exists(),
   ],
   async (req, res) => {
-     
+
     let success = false
     //If there are Validation error, return bad request and errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({success , errors: errors.array() });
+      return res.status(400).json({ success, errors: errors.array() });
     }
 
     // ideal case : when user(ADMIN) gives email and password correctly(in right format as well)
@@ -83,17 +89,17 @@ router.post(
 
     try {
 
-     //Check whether the user with this email exists 
+      //Check whether the user with this email exists 
       let user = await User.findOne({ email });
       if (!user)  // if login credentials are wrong !
-        return res.status(400).json({success , error: "Please try to login using correct credentials" });
+        return res.status(400).json({ success, error: "Please try to login using correct credentials" });
 
       const passwordCompare = await bcrypt.compare(password, user.password);
 
       if (!passwordCompare)  // if password doesn't matches !
-        return res.status(400).json({success , error: "Please try to login using correct credentials" });
-      
-        // if user credentials matches
+        return res.status(400).json({ success, error: "Please try to login using correct credentials" });
+
+      // if user credentials matches
       const data = {
         user: {
           id: user.id,
@@ -101,10 +107,10 @@ router.post(
       };
       const authtoken = jwt.sign(data, jwt_secret);   // generating AUTH-TOKEN for user
       success = true;
-      res.json({ success  , authtoken });
+      res.json({ success, authtoken });
     } catch (error) {
       console.error(error.message);
-      res.status(500).json({success ,error : "Internal SERVER error !!!!"});
+      res.status(500).json({ success, error: "Internal SERVER error !!!!" });
     }
   }
 );
@@ -114,19 +120,19 @@ router.get("/getUser", fetchuser, async (req, res) => {
   let success = false;
   try {
     const userId = req.user.id
-    
-     const temp = await User.findById(userId)
-      if (temp == null) {
-          return res.status(404).json({success, error:"wrong credentials"});
-      }
+
+    const temp = await User.findById(userId)
+    if (temp == null) {
+      return res.status(404).json({ success, error: "wrong credentials" });
+    }
 
     //finding admin with this id 
     const user = await User.findById(userId).select("-password");
     success = true;
-    res.json({success, user});
+    res.json({ success, user });
   } catch (error) {
     console.error(error.message);
-    res.status(500).json({success, error:"Internal SERVER error !"});
+    res.status(500).json({ success, error: "Internal SERVER error !" });
   }
 });
 
@@ -137,24 +143,24 @@ router.put("/update", fetchuser, async (req, res) => {
   try {
     const { name, email } = req.body;
     const UpdatedBuyer = {};
-    if (name) { 
-      if(name.length < 3)
-         return res.status(400).json({success, errors: "Enter  a valid name" });
+    if (name) {
+      if (name.length < 3)
+        return res.status(400).json({ success, errors: "Enter  a valid name" });
 
-         UpdatedBuyer.name = name
+      UpdatedBuyer.name = name
     }
 
     // if (email) { UpdatedBuyer.email = email }
     const userId = req.user.id
 
     // find with id and update it
-    newUser = await User.findByIdAndUpdate(userId, { $set: UpdatedBuyer }, {new:true})
+    newUser = await User.findByIdAndUpdate(userId, { $set: UpdatedBuyer }, { new: true })
     success = true;
-    res.json({success, newUser});
+    res.json({ success, newUser });
 
   } catch (error) {
     console.error(error.message);
-    res.status(500).json({success, error:"Internal SERVER error !"});
+    res.status(500).json({ success, error: "Internal SERVER error !" });
   }
 });
 
@@ -163,49 +169,49 @@ router.put("/updatePassword", fetchuser, async (req, res) => {
   let success = false;
   try {
 
-      const { oldPassword, newPassword } = req.body;
+    const { oldPassword, newPassword } = req.body;
 
-      // creating object newAgentDetail
-      const newAdminDetail = {};
+    // creating object newAgentDetail
+    const newAdminDetail = {};
 
-      // getting user id from token(using fetchUser middleware)
-      const userid = req.user.id;
+    // getting user id from token(using fetchUser middleware)
+    const userid = req.user.id;
 
-      // finding admin with  ID(userID)
-      let admin = await User.findById(userid);
+    // finding admin with  ID(userID)
+    let admin = await User.findById(userid);
 
-      // if any admin is not  found with ID
-      if (!admin) {
-          return res.status(400).json({success, error: "PLease try to login with correct credential" });
+    // if any admin is not  found with ID
+    if (!admin) {
+      return res.status(400).json({ success, error: "PLease try to login with correct credential" });
+    }
+
+    //  if password is passed and to update
+    if ((newPassword).length >= 5) {
+
+      // if password is not match with user
+      if (bcrypt.compareSync(oldPassword, admin.password) == false) {
+        return res.status(400).json({ success, error: "PLease enter correct Old password" });
       }
 
-      //  if password is passed and to update
-      if ((newPassword).length >= 5) {
+      // genrating salt of lenght 10 for password 
+      var salt = bcrypt.genSaltSync(10);
 
-          // if password is not match with user
-          if (bcrypt.compareSync(oldPassword, admin.password) == false) {
-              return res.status(400).json({success, error: "PLease enter correct Old password" });
-          }
+      // Hashing(encrypting) a password 
+      var password = bcrypt.hashSync(newPassword, salt);
 
-          // genrating salt of lenght 10 for password 
-          var salt = bcrypt.genSaltSync(10);
+      newAdminDetail.password = password;
+    }
+    else {
+      return res.status(400).json({ success, errors: "Please enter valid  Password" });
+    }
 
-          // Hashing(encrypting) a password 
-          var password = bcrypt.hashSync(newPassword, salt);
-
-          newAdminDetail.password = password;
-      }
-      else {
-          return res.status(400).json({success, errors: "Please enter valid  Password" });
-      }
-
-      agent = await User.findByIdAndUpdate(userid, { $set: newAdminDetail }, { new: true }).select("-password");
-      success = true;
-      res.json({success, message:"Your password is succesfully updated"});
+    agent = await User.findByIdAndUpdate(userid, { $set: newAdminDetail }, { new: true }).select("-password");
+    success = true;
+    res.json({ success, message: "Your password is succesfully updated" });
 
   } catch (error) {
-      console.error(error.message);
-      res.status(500).json({success, error:"Internal Serveral error"});
+    console.error(error.message);
+    res.status(500).json({ success, error: "Internal Serveral error" });
   }
 })
 

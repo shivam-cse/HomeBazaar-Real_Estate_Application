@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import '../css/Dashboard.css'
+import Alert from '../Alert'
 import { NavLink } from 'react-router-dom';
 export default function Dashboard() {
     const host = "http://localhost:5000";
@@ -36,6 +37,7 @@ export default function Dashboard() {
       }
     return (
         <>
+         <Alert />
             <div className='dashboard-top bg-primary text-white'>Dashboard </div>
             <NavLink to="/buyer/chat" className="chat"><i className="chat-icon fab fa-rocketchat" ></i></NavLink>
             <div className='dashboard'>
