@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import '../css/Dashboard.css'
 import { useNavigate } from 'react-router-dom';
+import AlertContext from '../context/AlertContext'
 export default function UpdatePassword() {
 
     //it is for handle the state of updated Password
     const [updatePassword, setupdatePassword] = useState({ oldPassword: "", newPassword: "", cnewPassword: "" });
-
+    const context = useContext(AlertContext);
+    const { alert, addAlert } = context;
     //to navigate 
     const navigate = useNavigate();
     const host = "http://localhost:5000";
@@ -16,10 +18,10 @@ export default function UpdatePassword() {
         e.preventDefault();
 
         //if the user entered new password is not same
-         if(updatePassword.cnewPassword !== updatePassword.newPassword){
-             alert("Please enter coorect new password")
-             return;
-         }
+        if (updatePassword.cnewPassword !== updatePassword.newPassword) {
+            alert("Please enter coorect new password")
+            return;
+        }
         //API call to update the password our user
         const response = await fetch(`${host}/api/auth/seller/updatePassword`, {
             method: 'PUT',
@@ -33,11 +35,19 @@ export default function UpdatePassword() {
         const json = await response.json();
         // console.log("Hello",json);
         if (json.success) {
+            addAlert({
+                type: 'success',
+                msg: 'Password Updated Successfully'
+            })
             navigate('/seller/dashboard')
         }
         else {
 
-            alert("Not updated")
+
+            addAlert({
+                type: 'danger',
+                msg: json.error
+            })
         }
     }
     const onChange = (e) => {
@@ -49,7 +59,7 @@ export default function UpdatePassword() {
         <>
             <form onSubmit={handleUpdatePassword}>
                 <div className='update-container'>
-                <div className='update-top bg-primary text-white'>Update Your Password </div>
+                    <div className='update-top bg-primary text-white'>Update Your Password </div>
                     <div className="mb-3">
                         <label htmlFor="oldPassword" className="form-label">Enter old password</label>
                         <input type="password" className="form-control" id="oldPassword" value={updatePassword.oldPassword} name='oldPassword' placeholder="password" onChange={onChange} required minLength={5} />
