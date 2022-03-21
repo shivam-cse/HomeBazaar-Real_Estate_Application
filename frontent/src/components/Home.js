@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import './css/Home.css';
 import buyImg from '../img/buy.jpg'
 import rent from '../img/rent.jpg'
+import ALert from './Alert';
 
 
 
@@ -19,9 +20,10 @@ function Home() {
 
     return (
         <div id="cont">
+            <ALert />
             <form className="d-flex" id='searchSection'>
                 <input className="form-control  mt-10 mx-4" type="search" placeholder="Enter Area For Property" id="area" name='area' onChange={onChange} value={area} aria-label="Search" />
-                <Link className="btn btn-primary mx-1" to={'/apartmentResult'} state={{ area: area }} role="button" aria-disabled="true">Login</Link >
+                <Link className="btn btn-primary mx-1" to={'/apartmentResult'} state={{ area: area }} role="button" aria-disabled="true">Search</Link >
             </form>
             <div className='container'>
                 <div className="d-flex justify-content-between">

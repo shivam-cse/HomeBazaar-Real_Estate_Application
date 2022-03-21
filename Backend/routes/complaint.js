@@ -20,7 +20,7 @@ router.post("/create",
         //If there are error, return bad request and errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({success,  errors: errors.array()});
+            return res.status(400).json({success,  error: errors.array()});
         }
         try {
 

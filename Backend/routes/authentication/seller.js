@@ -25,7 +25,7 @@ router.post('/signup', [
 
   //if the user data is not as we expect then we will return the error message with 400 status code.
   if (!errors.isEmpty()) {
-    return res.status(400).json({ success, errors: errors.array() });
+    return res.status(400).json({ success, error: errors.array() });
   }
 
   // Get user input
@@ -84,8 +84,8 @@ router.post('/login', [
 
   //if the user data is not as we expect then we will retuen the error message with 400 status code.
   if (!errors.isEmpty()) {
-    
-    return res.status(400).json({ success, errors: errors.array() });
+
+    return res.status(400).json({ success, error: errors.array() });
   }
 
   // Get user input
@@ -123,7 +123,7 @@ router.post('/login', [
 
   } catch (error) {
     console.log(error.message)
-    res.status(500).json({success, error: "Invalid Credentials" })
+    res.status(500).json({ success, error: "Invalid Credentials" })
   }
 })
 
@@ -133,19 +133,24 @@ router.get('/getUser', fetchUser, async (req, res) => {
   try {
     //get the user id 
     const userId = req.user.id;
+    
     //finding user with auth token (user id)
-    const temp = await User.findById(userid)
-    if (temp == null) {
-        return res.status(404).json({success, error:"wrong credentials"});
+    const temp = await User.findById(userId)
+    
+    if (temp === null) {
+      return res.status(404).json({ success, error: "wrong credentials" });
     }
+    
     //get all the details about the user except password
     const user = await User.findById(userId).select("-password");
+    
     success = true;
-    res.json({success, user});
+    res.json({ success, user });
+    
 
   } catch (error) {
     console.log(error.message)
-    res.status(500).send({success, error: "internal server error" });
+    res.status(500).json({ success, error: "internal server error" });
   }
 
 })
@@ -166,25 +171,25 @@ router.put('/update', fetchUser, async (req, res) => {
 
     if (!user) {
       //user is not present into database.
-      return res.status(404).json({success, error:"this user not found"});
+      return res.status(404).json({ success, error: "this user not found" });
     }
 
     if (updatedName) {
       if (updatedName.length < 3)
-        return res.status(400).json({success,  errors: "Enter  a valid name" });
+        return res.status(400).json({ success, error: "Enter  a valid name" });
       user.name = updatedName
     }
 
     //save the updated data 
     let updatedUser = await user.save();
-    
+
     success = true
     //return res with updated user
-    res.json({success, updatedUser });
+    res.json({ success, updatedUser });
 
   } catch (error) {
     console.log(error.message)
-    res.status(500).send({success, error: "internal server error-" });
+    res.status(500).send({ success, error: "internal server error-" });
   }
 
 })
@@ -214,7 +219,7 @@ router.put('/updatePassword', fetchUser, async (req, res) => {
 
     //if the password not match then we will return 400 status code
     if (!passwordCompare) {
-      return res.status(400).json({success, error: "Please enter the correct old password" })
+      return res.status(400).json({ success, error: "Please enter the correct old password" })
     }
 
     //generate salt
@@ -229,7 +234,7 @@ router.put('/updatePassword', fetchUser, async (req, res) => {
 
     success = true;
     //return res with updated user
-    res.json({ success, message:"Passwrd has been successfully updated" });
+    res.json({ success, message: "Passwrd has been successfully updated" });
 
   } catch (error) {
     console.log(error.message)
@@ -241,12 +246,13 @@ router.put('/updatePassword', fetchUser, async (req, res) => {
 //Router 6 : Delete user  using DELETE : api/auth/seller/delete - Login required
 router.delete('/delete/:id', fetchUser, async (req, res) => {
   //getting id of the user whose Admin want to delete.
+  let success = false;
   const deleteUserId = req.params.id;
   try {
     //find user from the database
     let user = await User.findById(deleteUserId);
     if (!user) {
-      return res.status(404).send("Not found");
+      return res.status(404).json({ success, error: "Not found" });
     }
 
     // getting all the apartment of user 
@@ -259,10 +265,11 @@ router.delete('/delete/:id', fetchUser, async (req, res) => {
 
     //deleting the user
     const updatedUser = await User.findByIdAndDelete(deleteUserId)
-    res.json({ "message": "User has been successfully deleted" });
+    success = true;
+    res.json({ success, "message": "User has been successfully deleted" });
   } catch (error) {
     console.log(error.message)
-    res.status(500).send({ error: "internal server error-" });
+    res.status(500).json({ success, error: "internal server error-" });
   }
 
 })
@@ -271,14 +278,14 @@ router.delete('/delete/:id', fetchUser, async (req, res) => {
 router.get('/alluser', async (req, res) => {
 
   try {
-      // find the all apartment of particular seller from database
-      const users = await User.find();
-      //sent the response to client
-      res.json(users)
+    // find the all apartment of particular seller from database
+    const users = await User.find();
+    //sent the response to client
+    res.json(users)
 
   } catch (error) {
-      //handle the error
-      res.status(500).json({ error: "internal server error" });
+    //handle the error
+    res.status(500).json({ error: "internal server error" });
   }
 })
 

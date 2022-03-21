@@ -20,7 +20,7 @@ router.post('/add', fetchUser, [
         // Finds the validation errors in this request and wraps them in an object with handy functions
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({success, errors: errors.array() });
+            return res.status(400).json({success, error: errors.array() });
         }
 
         const { address, area, type, bedrooms, size, price } = req.body;

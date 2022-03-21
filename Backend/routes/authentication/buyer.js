@@ -16,28 +16,33 @@ router.post(
     [
         body("name", "Enter  a valid name").isLength({ min: 3 }), // name must be at least 5 chars long
         body("email", "Enter  a valid email").isEmail(),
-        body("password", "password must be more than 5 characaters").isLength({min: 5})
+        body("password", "password must be more than 5 characaters").isLength({ min: 5 })
     ],
     async (req, res) => {
         //If there are validation error, return bad request and errors
         let success = false;
         const errors = validationResult(req);
+
+        const extractedErrors = []
+        errors.array().map(err => extractedErrors.push(err.msg))
+        console.log(extractedErrors)
+
         if (!errors.isEmpty()) {
-            return res.status(400).json({success, errors: errors.array() });
+            return res.status(400).json({ success, error: extractedErrors[0] });
         }
 
 
-        
+
         try {
 
             //Check whether the user with this email exists already
             let user = await User.findOne({ email: req.body.email });
             if (user) {
-                return res.status(400).json({success, error: "Sorry a user with this email already exists" });
+                return res.status(400).json({ success, error: "Sorry a user with this email already exists" });
             }
             // genrating salt of lenght 10 for password 
             const salt = await bcrypt.genSalt(10);
-           
+
             // Hashing(encrypting) a password 
             secPass = await bcrypt.hash(req.body.password, salt); // secPass = Our secured password hash value(with salt)
             user = await User.create({
@@ -55,10 +60,10 @@ router.post(
             //generating auth token
             const authtoken = jwt.sign(data, jwt_secret);   // generating AUTH-TOKEN for user
             success = true
-            res.json({success, authtoken });
+            res.json({ success, authtoken });
         } catch (error) {
             console.error(error.message);
-            res.status(500).json({success, error: "Some ERROR occured"});
+            res.status(500).json({ success, error: "Some ERROR occured" });
         }
     }
 );
@@ -71,11 +76,11 @@ router.post(
         body("password", "Password cannot be blank").exists(),
     ],
     async (req, res) => {
-           //If there are validation error, return bad request and errors
-           let success = false;
+        //If there are validation error, return bad request and errors
+        let success = false;
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({success, errors: errors.array() });
+            return res.status(400).json({ success, error: errors.array() });
         }
 
         // ideal case : when user gives email and password correctly(in right format as well)
@@ -86,13 +91,13 @@ router.post(
             let user = await User.findOne({ email });
 
             if (!user)
-                return res.status(400).json({success, error: "Please try to login using correct credentials" });
+                return res.status(400).json({ success, error: "Please try to login using correct credentials" });
 
             ///comparing the password
             const passwordCompare = await bcrypt.compare(password, user.password);
             if (!passwordCompare)
-                return res.status(400).json({success, error: "Please try to login using correct credentials" });
-        
+                return res.status(400).json({ success, error: "Please try to login using correct credentials" });
+
             // if user entered credentials  matches
             const data = {
                 user: {
@@ -101,10 +106,10 @@ router.post(
             };
             const authtoken = jwt.sign(data, jwt_secret);   // generating AUTH-TOKEN for user
             success = true
-            res.json({success, authtoken });
+            res.json({ success, authtoken });
         } catch (error) {
             console.error(error.message);
-            res.status(500).json({success, error:"Internal SERVER error !!!!"});
+            res.status(500).json({ success, error: "Internal SERVER error !!!!" });
         }
     }
 );
@@ -118,15 +123,15 @@ router.get("/getUser", fetchuser, async (req, res) => {
         //finding user with auth token (user id)
         const temp = await User.findById(userId)
         if (temp == null) {
-            return res.status(404).json({success, error:"wrong credentials"});
+            return res.status(404).json({ success, error: "wrong credentials" });
         }
         //find the existing user 
-        const user = await User.findById(userId).select("-password");  
+        const user = await User.findById(userId).select("-password");
         success = true;
-        res.json({success, user});
+        res.json({ success, user });
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({success, error:"Internal SERVER error !!!!"});
+        res.status(500).json({ success, error: "Internal SERVER error !!!!" });
     }
 });
 
@@ -138,22 +143,22 @@ router.put("/update", fetchuser, async (req, res) => {
         const { name } = req.body;
         const UpdatedBuyer = {};
         if (name) {
-            if(name.length < 3)
-            return res.status(400).json({success, errors: "Enter  a valid name" });
+            if (name.length < 3)
+                return res.status(400).json({ success, error: "Enter  a valid name" });
 
-           UpdatedBuyer.name = name
+            UpdatedBuyer.name = name
         }
-    
+
         const userId = req.user.id
-       //update and save
+        //update and save
         newUser = await User.findByIdAndUpdate(userId, { $set: UpdatedBuyer }, { new: true })
         success = true;
-        res.json({success, newUser});
+        res.json({ success, newUser });
 
 
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({success, error: "Internal SERVER error !!!!"});
+        res.status(500).json({ success, error: "Internal SERVER error !!!!" });
     }
 });
 
@@ -162,77 +167,79 @@ router.put("/updatePassword", fetchuser, async (req, res) => {
     let success = false
     try {
         const { oldPassword, newPassword } = req.body;
-  
+
         // creating object newAgentDetail
         const newbuyerDetail = {};
-  
+
         // getting user id from token(using fetchUser middleware)
         const userid = req.user.id;
-  
+
         // finding admin with  ID(userID)
         let buyer = await User.findById(userid);
-  
+
         // if any admin is not  found with ID
         if (!buyer) {
-            return res.status(400).json({success, error: "PLease try to login with correct credential" });
+            return res.status(400).json({ success, error: "PLease try to login with correct credential" });
         }
-  
+
         //  if password is passed and to update
         if ((newPassword).length >= 5) {
-  
+
             // if password is not match with user
             if (bcrypt.compareSync(oldPassword, buyer.password) == false) {
-                return res.status(400).json({success, error: "PLease enter correct Old password" });
+                return res.status(400).json({ success, error: "PLease enter correct Old password" });
             }
-  
+
             // genrating salt of lenght 10 for password 
             var salt = bcrypt.genSaltSync(10);
-  
+
             // Hashing(encrypting) a password 
             var password = bcrypt.hashSync(newPassword, salt);
-  
+
             newbuyerDetail.password = password;
         }
         else {
-            return res.status(400).json({success, errors: "Please enter valid  Password" });
+            return res.status(400).json({ success, error: "Please enter valid  Password" });
         }
-  
+
         buyer = await User.findByIdAndUpdate(userid, { $set: newbuyerDetail }, { new: true }).select("-password");
         success = true;
-        res.json({success});
-  
+        res.json({ success });
+
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({success, error:"Internal Serveral error"});
+        res.status(500).json({ success, error: "Internal Serveral error" });
     }
-  })
+})
 
 // ROUTE 6:  DELETE "/api/auth/buyer/delete/:id""
 router.delete("/delete/:id", fetchuser,
     async (req, res) => {
+        let success = false;
         try {
 
             // now verifying whether the token passed is of any admin or of some other illegal person
             const admin = await Admin.findById(req.user.id);
             if (!admin)
-                return res.status(404).send("Operation not allowed !!!");
+                return res.status(404).json({ success, error: "Operation not allowed !!!" });
             else {
 
                 // now deleting the required buyer by accessing the buyer id via req.params.id
                 let BuyerToBeDeleted = req.params.id;
                 temp = await Buyer.findById(BuyerToBeDeleted)
                 if (temp == null) {
-                    return res.status(404).send("Buyer with given id not found");
+                    return res.status(404).json({ success, error: "Buyer with given id not found" });
                 }
                 else {
+                    success = true;
                     resultOfDeletingBuyer = await Buyer.findByIdAndDelete(BuyerToBeDeleted);
-                    return res.status(200).send("Successfully deleted the buyer !")
+                    return res.status(200).json({ success, message: "Successfully deleted the buyer !" })
                 }
             }
         }
         catch (error) {
             console.error(error.message);
-            return res.status(500).send("Internal SERVER error !!!!");
+            return res.status(500).json({ success, error: "Internal SERVER error !!!!" });
         }
     }
 );
