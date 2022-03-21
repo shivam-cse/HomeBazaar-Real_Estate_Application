@@ -25,7 +25,7 @@ export default function UpdatePassword() {
         if (updatePassword.cnewPassword !== updatePassword.newPassword) {
             addAlert({
                 type: 'danger',
-                msg: 'Please enter correct new password'
+                msg: 'New password and confirm password didnot matched'
             })
             return;
         }

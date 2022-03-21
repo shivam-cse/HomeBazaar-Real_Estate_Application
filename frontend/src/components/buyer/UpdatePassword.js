@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react'
 import '../css/Dashboard.css'
 import AlertContext from '../context/AlertContext'
 import { useNavigate } from 'react-router-dom';
+import Alert from '../Alert'
 export default function UpdatePassword() {
 
     //it is for handle the state of updated Password
@@ -19,7 +20,10 @@ export default function UpdatePassword() {
 
         //if the user entered new password is not same
         if (updatePassword.cnewPassword !== updatePassword.newPassword) {
-            alert("Please enter coorect new password")
+            addAlert({
+                type: 'danger',
+                msg: 'New password and Confirm password must be same'
+            })
             return;
         }
         //API call to update the password our user
@@ -56,6 +60,7 @@ export default function UpdatePassword() {
 
     return (
         <>
+            <Alert />
             <form onSubmit={handleUpdatePassword}>
                 <div className='update-container'>
                     <div className='update-top bg-primary text-white'>Update Your Password </div>

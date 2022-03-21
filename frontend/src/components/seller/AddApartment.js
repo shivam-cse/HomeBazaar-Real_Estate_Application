@@ -21,6 +21,8 @@ export default function UpdateProfile() {
         //this is to do not reload our page
         e.preventDefault();
 
+
+        let areaNEW = addApartment.area.toLowerCase();
         //API call to add the apartment into our database
         const response = await fetch(`${host}/api/apartment/add`, {
             method: 'POST',
@@ -28,7 +30,7 @@ export default function UpdateProfile() {
                 'Content-Type': 'application/json',
                 'auth-token': localStorage.getItem('token')
             },
-            body: JSON.stringify({ address: addApartment.address, area: addApartment.area, type: type, bedrooms: addApartment.bedrooms, size: addApartment.size, price: addApartment.price })
+            body: JSON.stringify({ address: addApartment.address, area: areaNEW, type: type, bedrooms: addApartment.bedrooms, size: addApartment.size, price: addApartment.price })
         });
         const json = await response.json();
         // console.log(json);

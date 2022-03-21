@@ -9,11 +9,13 @@ function ApartementResult(props) {
 
     const location = useLocation()
     const { area } = location.state
+
+    let areaNEW = area.toLowerCase();
     const [apartements, setApartements] = useState([]);
     const [lodding, setlodding] = useState(true)
 
     const getApartment = async () => {
-        const responce = await fetch(`${host}/api/apartment/getApartment/${area}`, {
+        const responce = await fetch(`${host}/api/apartment/getApartment/${areaNEW}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

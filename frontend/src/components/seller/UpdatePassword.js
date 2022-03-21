@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react'
-import '../css/UpdateProfile.css'
-import AlertContext from '../context/AlertContext'
+import '../css/Dashboard.css'
 import { useNavigate } from 'react-router-dom';
+import AlertContext from '../context/AlertContext'
+import Alert from '../Alert'
 export default function UpdatePassword() {
 
     //it is for handle the state of updated Password
@@ -18,12 +19,15 @@ export default function UpdatePassword() {
         e.preventDefault();
 
         //if the user entered new password is not same
-         if(updatePassword.cnewPassword !== updatePassword.newPassword){
-             alert("Please enter coorect new password")
-             return;
-         }
+        if (updatePassword.cnewPassword !== updatePassword.newPassword) {
+            addAlert({
+                type: 'danger',
+                msg: 'New password and Confirm password must be same'
+            })
+            return;
+        }
         //API call to update the password our user
-        const response = await fetch(`${host}/api/auth/agent/updatePassword`, {
+        const response = await fetch(`${host}/api/auth/seller/updatePassword`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -33,16 +37,18 @@ export default function UpdatePassword() {
         });
 
         const json = await response.json();
-        console.log(json);
+        // console.log("Hello",json);
         if (json.success) {
             addAlert({
                 type: 'success',
                 msg: 'Password Updated Successfully'
             })
-            navigate('/agent/dashboard')
+            navigate('/seller/dashboard')
         }
         else {
 
+            // console.log('error in update seller paswrod')
+            // console.log(json.error)
             addAlert({
                 type: 'danger',
                 msg: json.error
@@ -56,9 +62,10 @@ export default function UpdatePassword() {
 
     return (
         <>
+            <Alert />
             <form onSubmit={handleUpdatePassword}>
                 <div className='update-container'>
-                <div className='update-top bg-primary text-white'>Update Your Password </div>
+                    <div className='update-top bg-primary text-white'>Update Your Password </div>
                     <div className="mb-3">
                         <label htmlFor="oldPassword" className="form-label">Enter old password</label>
                         <input type="password" className="form-control" id="oldPassword" value={updatePassword.oldPassword} name='oldPassword' placeholder="password" onChange={onChange} required minLength={5} />

@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react'
-import '../css/Dashboard.css'
-import { useNavigate } from 'react-router-dom';
+import '../css/UpdateProfile.css'
 import AlertContext from '../context/AlertContext'
+import { useNavigate } from 'react-router-dom';
+import Alert from '../Alert'
 export default function UpdatePassword() {
 
     //it is for handle the state of updated Password
@@ -19,11 +20,14 @@ export default function UpdatePassword() {
 
         //if the user entered new password is not same
         if (updatePassword.cnewPassword !== updatePassword.newPassword) {
-            alert("Please enter coorect new password")
+            addAlert({
+                type: 'danger',
+                msg: 'New password and Confirm Pasword didnot matched'
+            })
             return;
         }
         //API call to update the password our user
-        const response = await fetch(`${host}/api/auth/seller/updatePassword`, {
+        const response = await fetch(`${host}/api/auth/agent/updatePassword`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -33,16 +37,15 @@ export default function UpdatePassword() {
         });
 
         const json = await response.json();
-        // console.log("Hello",json);
+        console.log(json);
         if (json.success) {
             addAlert({
                 type: 'success',
                 msg: 'Password Updated Successfully'
             })
-            navigate('/seller/dashboard')
+            navigate('/agent/dashboard')
         }
         else {
-
 
             addAlert({
                 type: 'danger',
@@ -57,6 +60,7 @@ export default function UpdatePassword() {
 
     return (
         <>
+            <Alert />
             <form onSubmit={handleUpdatePassword}>
                 <div className='update-container'>
                     <div className='update-top bg-primary text-white'>Update Your Password </div>

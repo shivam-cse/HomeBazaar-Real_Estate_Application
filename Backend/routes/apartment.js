@@ -20,11 +20,13 @@ router.post('/add', fetchUser, [
         // Finds the validation errors in this request and wraps them in an object with handy functions
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({success, error: errors.array() });
+            return res.status(400).json({ success, error: errors.array() });
         }
-
         const { address, area, type, bedrooms, size, price } = req.body;
 
+        // making area in lowercase
+
+        
         //making newApartment object
         const newApartment = new Apartment({ address, area, type, bedrooms, size, price, seller: req.user.id })
 
@@ -32,10 +34,10 @@ router.post('/add', fetchUser, [
         const addApartment = await newApartment.save();
         //send the response
         success = true;
-        res.json({success, addApartment})
+        res.json({ success, addApartment })
     } catch (error) {
         console.log(error.message);
-        res.status(500).send({success, error: "internal server error-" });
+        res.status(500).send({ success, error: "internal server error-" });
     }
 })
 
@@ -135,7 +137,7 @@ router.put('/update/:id', fetchUser, async (req, res) => {
 
 //Route 5 : delete an existing Apartment : DELETE  "/api/apartment/delete" - Login required
 router.delete('/delete/:id', fetchUser, async (req, res) => {
-
+    let success = false;
     try {
 
         //find the apartment
@@ -143,21 +145,21 @@ router.delete('/delete/:id', fetchUser, async (req, res) => {
 
         //if the apartment not present
         if (!apartment) {
-            return res.status(404).send("Not found");
+            return res.status(404).json({ success, error: "Not found" });
         }
 
         //allow deletion only actual user there
         if (apartment.seller.toString() !== req.user.id) {
-            return res.status(404).send("Not allow");
+            return res.status(404).json({ success, error: "Not allow" });
         }
         //delete the apartment
         const deletedApartment = await Apartment.findByIdAndDelete(req.params.id)
-
+        success = true;
         //send the message that  apartment has been successfully deleted 
-        res.json({ message: "Aprtment successfully deleted" });
+        res.json({ success, message: "Aprtment successfully deleted" });
     } catch (error) {
         console.log(error.message);
-        res.status(500).send({ error: "internal server error" });
+        res.status(500).json({ success, error: "internal server error" });
     }
 
 })
