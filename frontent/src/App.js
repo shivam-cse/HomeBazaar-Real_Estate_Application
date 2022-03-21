@@ -3,7 +3,6 @@ import React, { Fragment } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { BrowserRouter } from 'react-router-dom'
 import Navbar from './components/Navbar';
-import AlertState from "./components/context/AlertState";
 
 import BuyerDashboard from './components/buyer/Dashboard';
 import BuyerUpdateProfile from './components/buyer/UpdateProfile';
@@ -41,12 +40,11 @@ import Login from './components/login_signup/Login';
 function App() {
   return (
     <>
-    <AlertState>
       <BrowserRouter>
         <Fragment>
           <Navbar />
           <Routes>
-
+              
             <Route exact path="/login" element={<Login />} />
 
             <Route exact path="/buyersignup" element={<BuyerSignup />} />
@@ -82,7 +80,6 @@ function App() {
           </Routes>
         </Fragment>
       </BrowserRouter>
-      </AlertState>
     </>
   );
 }
