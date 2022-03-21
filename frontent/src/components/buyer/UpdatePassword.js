@@ -1,4 +1,4 @@
-import React, { useState , useContext} from 'react'
+import React, { useState, useContext } from 'react'
 import '../css/Dashboard.css'
 import AlertContext from '../context/AlertContext'
 import { useNavigate } from 'react-router-dom';
@@ -18,13 +18,10 @@ export default function UpdatePassword() {
         e.preventDefault();
 
         //if the user entered new password is not same
-         if(updatePassword.cnewPassword !== updatePassword.newPassword){
-             addAlert({
-                type: 'danger',
-                msg: 'Please Enter correct new password '
-            })
-             return;
-         }
+        if (updatePassword.cnewPassword !== updatePassword.newPassword) {
+            alert("Please enter coorect new password")
+            return;
+        }
         //API call to update the password our user
         const response = await fetch(`${host}/api/auth/buyer/updatePassword`, {
             method: 'PUT',
@@ -45,6 +42,7 @@ export default function UpdatePassword() {
             navigate('/buyer/dashboard')
         }
         else {
+
             addAlert({
                 type: 'danger',
                 msg: json.error
@@ -60,7 +58,7 @@ export default function UpdatePassword() {
         <>
             <form onSubmit={handleUpdatePassword}>
                 <div className='update-container'>
-                <div className='update-top bg-primary text-white'>Update Your Password </div>
+                    <div className='update-top bg-primary text-white'>Update Your Password </div>
                     <div className="mb-3">
                         <label htmlFor="oldPassword" className="form-label">Enter old password</label>
                         <input type="password" className="form-control" id="oldPassword" value={updatePassword.oldPassword} name='oldPassword' placeholder="password" onChange={onChange} required minLength={5} />
