@@ -1,10 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState , useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 import '../css/UpdateProfile.css'
+import AlertContext from '../context/AlertContext'
+import ALert from '../Alert';
 
 const SignUp = (props) => {
     const [credentials, setCredentials] = useState({ name: "", email: "", password: "" })
     let navigate = useNavigate();
+
+    // using to accessed data without passing the props down manually to each level(component hierarch)
+    const context = useContext(AlertContext);
+    const { alert, addAlert } = context;
+
     const handleSubmit = async (e) => {
 
         e.preventDefault();
@@ -27,12 +34,18 @@ const SignUp = (props) => {
             
             localStorage.setItem('token', json.authtoken)
             localStorage.setItem('userType', "seller")
-            alert('Registration Successful')
+            addAlert({
+                type: 'success',
+                msg: 'Registered Successfully'
+            })
+
             navigate("/")
         }
         else {
-            // props.showAlert("Invalid details", "danger")
-            alert(json.error)
+            addAlert({
+                type: 'danger',
+                msg: json.error
+            })
         }
 
     }
@@ -40,6 +53,9 @@ const SignUp = (props) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value })
     }
     return (
+        <div>
+            <ALert/>
+      
         <div className='update-container'>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
@@ -60,6 +76,7 @@ const SignUp = (props) => {
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>
 
+        </div>
         </div>
     )
 }
