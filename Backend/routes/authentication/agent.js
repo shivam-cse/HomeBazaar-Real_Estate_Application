@@ -18,19 +18,14 @@ router.post("/signup", [
     body('workingArea', "Please enter valid area of atleast length of 2").isLength({ min: 2 }),
     body('password', "Please enter valid area of atleast length of 5").isLength({ min: 5 }),
 ], async (req, res) => {
-
+   
     let success = false;
     // Finds the validation errors in this request and wraps them in an object with handy functions
-    let errors = validationResult(req)
+    const errors = validationResult(req);
 
-    const extractedErrors = []
-    errors.array().map(err => extractedErrors.push(err.msg))
-    console.log(extractedErrors)
     // if any  Validation error
     if (!errors.isEmpty()) {
-
-        // console.log(errors.error[0].msg + "err2");
-        return res.status(400).json({ success, error: extractedErrors[0] });
+        return res.status(400).json({success, errors: errors.array() });
     }
 
     try {
@@ -39,7 +34,7 @@ router.post("/signup", [
         // check if contact number only contain digit
         let isnum = /^\d+$/.test(contactNumber);
         if (isnum == false) {
-            return res.status(400).json({ success, error: "Please enter valid Phone number" });
+            return res.status(400).json({success, errors: "Please enter valid Phone number" });
         }
 
         // finding agent with this email
@@ -47,14 +42,14 @@ router.post("/signup", [
 
         // if any agent is found with this email
         if (agent) {
-            return res.status(400).json({ success, error: "Sorry a user with this email already exist" });
+            return res.status(400).json({success, errors: "Sorry a user with this email already exist" });
         }
 
         // finding agent with this contact Number
         agent = await Agent.findOne({ contactNumber: contactNumber });
         // if any agent is found
         if (agent) {
-            return res.status(400).json({ success, error: "Sorry a user with this contact Number already exist" });
+            return res.status(400).json({success, errors: "Sorry a user with this contact Number already exist" });
         }
 
         // genrating salt of lenght 10 for password 
@@ -82,12 +77,12 @@ router.post("/signup", [
 
         // creating auth token ans sending as responce
         const authtoken = jwt.sign(data, jwt_secret);
-        success = true
-        res.json({ success, authtoken: authtoken });
+        success= true
+        res.json({success, authtoken: authtoken });
 
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({ success, error: "Internal Serveral error" });
+        res.status(500).json({success, error:"Internal Serveral error"});
     }
 
 })
@@ -104,7 +99,7 @@ router.post("/login", [
     const errors = validationResult(req);
     // if any  Validation error
     if (!errors.isEmpty()) {
-        return res.status(400).json({ success, error: errors.array() });
+        return res.status(400).json({success, errors: errors.array() });
     }
 
     try {
@@ -114,12 +109,12 @@ router.post("/login", [
 
         // if any agent is not  found with this email
         if (!agent) {
-            return res.status(400).json({ success, error: "PLease try to login with correct credential" });
+            return res.status(400).json({success, error: "PLease try to login with correct credential" });
         }
 
         // if password is not match with user
         if (bcrypt.compareSync(password, agent.password) == false) {
-            return res.status(400).json({ success, error: "PLease try to login with correct credential" });
+            return res.status(400).json({success, error: "PLease try to login with correct credential" });
         }
 
         // creating data for authtoken
@@ -128,15 +123,15 @@ router.post("/login", [
                 id: agent.id,
             },
         };
-
+        
         // generting authtoekn and sending
         const authtoken = jwt.sign(data, jwt_secret);
         success = true
-        res.json({ success, authtoken: authtoken });
+        res.json({success, authtoken: authtoken });
 
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({ success, error: "Internal Serveral error" });
+        res.status(500).json({success, error:"Internal Serveral error"});
     }
 
 })
@@ -144,21 +139,21 @@ router.post("/login", [
 // Route - 3 fetching a Agent detail using : POST "/api/auth/agent/getUser" , login required 
 router.get("/getUser", fetchUser, async (req, res) => {
     let success = false;
-    try {
+    try {  
         // getting user id from token(using fetchUser middleware)
         const userid = req.user.id;
         //finding user with auth token (user id)
         const temp = await Agent.findById(userid)
         if (temp == null) {
-            return res.status(404).json({ success, error: "wrong credentials" });
+            return res.status(404).json({success, error:"wrong credentials"});
         }
         // finding agent with id
         const agent = await Agent.findById(userid).select("-password");
         success = true;
-        res.json({ success, agent });
+        res.json({success, agent});
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({ success, error: "Internal Serveral error" });
+        res.status(500).json({success, error:"Internal Serveral error"});
     }
 })
 
@@ -176,17 +171,17 @@ router.put("/update", fetchUser, async (req, res) => {
 
         //  if name is passed and to update
         if (name) {
-            if (name.length < 2)
-                return res.status(400).json({ success, error: "please enter valid name" });
+            if(name.length < 2)
+              return  res.status(400).json({success, errors: "please enter valid name" });
 
             newAgentDetail.name = name;
         }
 
         //  if workingArea is passed and to update
         if (workingArea) {
-            if (workingArea.length < 2)
-                return res.status(400).json({ success, error: "please enter valid workingArea" });
-
+            if(workingArea.length < 2)
+              return  res.status(400).json({success, errors: "please enter valid workingArea" });
+              
             newAgentDetail.workingArea = workingArea;
         }
 
@@ -200,14 +195,14 @@ router.put("/update", fetchUser, async (req, res) => {
             // check if contact number only contain digit and length of 10
             let isnum = /^\d+$/.test(contactNumber);
             if ((contactNumber).length != 10 || isnum == false) {
-                return res.status(400).json({ success, error: "Please enter valid Phone number" });
+                return res.status(400).json({success, errors: "Please enter valid Phone number" });
             }
 
             // finding agent with this contact Number
             let agent = await Agent.findOne({ contactNumber: contactNumber });
             // if any agent is found
             if (agent) {
-                return res.status(400).json({ success, error: "Sorry a user with this contact Number already exist" });
+                return res.status(400).json({success, errors: "Sorry a user with this contact Number already exist" });
             }
 
             newAgentDetail.contactNumber = contactNumber;
@@ -215,10 +210,10 @@ router.put("/update", fetchUser, async (req, res) => {
 
         agent = await Agent.findByIdAndUpdate(userid, { $set: newAgentDetail }, { new: true }).select("-password");
         success = true;
-        res.json({ success, agent });
+        res.json({success, agent});
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({ success, error: "Internal Serveral error" });
+        res.status(500).json({success, error:"Internal Serveral error"});
     }
 })
 
@@ -241,14 +236,14 @@ router.put("/updatePassword", fetchUser, async (req, res) => {
 
         // if any agent is not  found with ID
         if (!agent) {
-            return res.status(400).json({ success, error: "PLease try to login with correct credential" });
+            return res.status(400).json({success, error: "PLease try to login with correct credential" });
         }
 
         //  if password is passed and to update
         if ((newPassword).length >= 5) {
             // if password is not match with user
             if (bcrypt.compareSync(oldPassword, agent.password) == false) {
-                return res.status(400).json({ success, error: "PLease enter correct Old password" });
+                return res.status(400).json({success, error: "PLease enter correct Old password" });
             }
 
             // genrating salt of lenght 10 for password 
@@ -260,16 +255,16 @@ router.put("/updatePassword", fetchUser, async (req, res) => {
             newAgentDetail.password = password;
         }
         else {
-            return res.status(400).json({ success, error: "Please enter valid  Password" });
+            return res.status(400).json({success, errors: "Please enter valid  Password" });
         }
 
         agent = await Agent.findByIdAndUpdate(userid, { $set: newAgentDetail }, { new: true }).select("-password");
         success = true;
-        res.json({ success, message: "Your password is succesfully updated" });
+        res.json({success, message:"Your password is succesfully updated"});
 
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({ success, error: "Internal Serveral error" });
+        res.status(500).json({success, error:"Internal Serveral error"});
     }
 })
 
@@ -277,7 +272,6 @@ router.put("/updatePassword", fetchUser, async (req, res) => {
 
 // Route - 6 delete a Agent detail using : POST "/api/auth/agent/delete:id" , login required(as Admin)
 router.delete("/delete/:id", fetchUser, async (req, res) => {
-    let success = false;
     try {
 
         // id of agent which is deleted
@@ -287,16 +281,15 @@ router.delete("/delete/:id", fetchUser, async (req, res) => {
         let agent = await Agent.findById(id);
 
         if (!agent) {
-            return res.status(400).json({ success, error: "Not found" });
+            return res.status(400).send("Not found");
         }
 
         agent = await Agent.findByIdAndDelete(id);
-        success = true
-        res.json({ success, error: "Agent has been deleted" });
+        res.json({ "Success ": "Agent has been deleted" });
 
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({ success, error: "Internal Serveral error" });
+        res.status(500).send("Internal Serveral error");
     }
 })
 

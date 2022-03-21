@@ -6,7 +6,7 @@ export default function Dashboard() {
 
     //useState hook to maintain the user state
     const [userDetails, setuserDetails] = useState({ name: "", email: "" })
-
+    
     //get user details
     const getUserDetails = async (e) => {
         //API call to get user details
@@ -18,7 +18,7 @@ export default function Dashboard() {
             },
         });
         const json = await response.json();
-        console.log("hdschdccf ", json)
+
         if (json.success) {
             setuserDetails({ name: json.user.name, email: json.user.email })
         }
@@ -27,15 +27,15 @@ export default function Dashboard() {
         }
 
     }
-    // /Runs only on the first render page to get user data
+// /Runs only on the first render page to get user data
     useEffect(() => {
         getUserDetails();
-
+        
     }, [])
 
     function capitalize(name) {
         return name.replace(/\b(\w)/g, s => s.toUpperCase());
-    }
+      }
 
     return (
         <>
@@ -50,7 +50,7 @@ export default function Dashboard() {
                         </div>
                         <div className="update">
                             <div >
-                                <NavLink to="/seller/update-profile" state={{ userDetails }} ><button type="button" className="btn btn-outline-primary update-btn">Update Profile</button></NavLink>
+                                <NavLink to="/seller/update-profile" state={{userDetails}} ><button type="button" className="btn btn-outline-primary update-btn">Update Profile</button></NavLink>
                             </div>
                             <div >
                                 <NavLink to="/seller/update-password" ><button type="button" className="btn btn-outline-primary update-btn">Update Password</button></NavLink>
