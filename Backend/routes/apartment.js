@@ -26,7 +26,7 @@ router.post('/add', fetchUser, [
 
         // making area in lowercase
 
-        
+
         //making newApartment object
         const newApartment = new Apartment({ address, area, type, bedrooms, size, price, seller: req.user.id })
 

@@ -155,7 +155,7 @@ router.get("/getUser", fetchUser, async (req, res) => {
         // finding agent with id
         const agent = await Agent.findById(userid).select("-password");
         success = true;
-        res.json({ success, agent });
+        res.json({ success, user:agent });
     } catch (error) {
         console.error(error.message);
         res.status(500).json({ success, error: "Internal Serveral error" });
@@ -314,6 +314,22 @@ router.get('/alluser', async (req, res) => {
         res.status(500).json({ error: "internal server error" });
     }
 })
+
+//Route 8:This api to get all Apartment of particular area api/apartment/getApartment/:area - login required
+router.get('/getAgent/:area', async (req, res) => {
+
+    try {
+        // find the all apartment of particular seller from database
+        const getAllAgent = await Agent.find({ workingArea: req.params.area });
+        //sent the response to client
+        res.json({success : true ,agents : getAllAgent})
+
+    } catch (error) {
+        //handle the error
+        res.status(500).json({succes: false ,error: "internal server error" });
+    }
+})
+
 
 
 module.exports = router;

@@ -36,52 +36,57 @@ import AgentSignup from './components/login_signup/AgentSignup';
 import SellerSignup from './components/login_signup/SellerSignup';
 
 import Login from './components/login_signup/Login';
-
+import Receiver from './components/chat/Receiver';
+import Chat from './components/chat/Chat';
+import AgentResult from './components/agent/AgentResult';
 
 function App() {
   return (
     <>
-    <AlertState>
-      <BrowserRouter>
-        <Fragment>
-          <Navbar />
-          <Routes>
+      <AlertState>
+        <BrowserRouter>
+          <Fragment>
+            <Navbar />
+            <Routes>
 
-            <Route exact path="/login" element={<Login />} />
+              <Route exact path="/login" element={<Login />} />
 
-            <Route exact path="/buyersignup" element={<BuyerSignup />} />
-            <Route exact path="/agentsignup" element={<AgentSignup />} />
-            <Route exact path="/sellersignup" element={<SellerSignup />} />
+              <Route exact path="/buyersignup" element={<BuyerSignup />} />
+              <Route exact path="/agentsignup" element={<AgentSignup />} />
+              <Route exact path="/sellersignup" element={<SellerSignup />} />
 
-            <Route exact path="/complaint" element={<Complaints />} />
-            <Route exact path="/admin/view-complaints" element={<ViewComplaint />} />
-            <Route exact path="/buyer/dashboard" element={<BuyerDashboard />} />
-            <Route exact path="/buyer/update-profile" element={<BuyerUpdateProfile />} />
-            <Route exact path="/buyer/update-password" element={<BuyerUpdatePassword />} />
+              <Route exact path="/complaint" element={<Complaints />} />
+              <Route exact path="/admin/view-complaints" element={<ViewComplaint />} />
+              <Route exact path="/buyer/dashboard" element={<BuyerDashboard />} />
+              <Route exact path="/buyer/update-profile" element={<BuyerUpdateProfile />} />
+              <Route exact path="/buyer/update-password" element={<BuyerUpdatePassword />} />
 
-            <Route exact path="/agent/dashboard" element={<AgentDashboard />} />
-            <Route exact path="/agent/update-profile" element={<AgentUpdateProfile />} />
-            <Route exact path="/agent/update-password" element={<AgentUpdatePassword />} />
+              <Route exact path="/agent/dashboard" element={<AgentDashboard />} />
+              <Route exact path="/agent/update-profile" element={<AgentUpdateProfile />} />
+              <Route exact path="/agent/update-password" element={<AgentUpdatePassword />} />
 
-            <Route exact path="/seller/dashboard" element={<SellerDashboard />} />
-            <Route exact path="/seller/update-profile" element={<SellerUpdateProfile />} />
-            <Route exact path="/seller/update-password" element={<SellerUpdatePassword />} />
-            <Route exact path="/seller/apartment-view" element={<SellerApartmentView />} />
-            <Route exact path="/seller/add-apartment" element={<SellerAddApartment />} />
+              <Route exact path="/seller/dashboard" element={<SellerDashboard />} />
+              <Route exact path="/seller/update-profile" element={<SellerUpdateProfile />} />
+              <Route exact path="/seller/update-password" element={<SellerUpdatePassword />} />
+              <Route exact path="/seller/apartment-view" element={<SellerApartmentView />} />
+              <Route exact path="/seller/add-apartment" element={<SellerAddApartment />} />
 
-            <Route exact path="/admin/dashboard" element={<AdminDashboard />} />
-            <Route exact path="/admin/update-profile" element={<AdminUpdateProfile />} />
-            <Route exact path="/admin/update-password" element={<AdminUpdatePassword />} />
-            <Route exact path="/admin/manage-users" element={<ViewUser />} />
+              <Route exact path="/admin/dashboard" element={<AdminDashboard />} />
+              <Route exact path="/admin/update-profile" element={<AdminUpdateProfile />} />
+              <Route exact path="/admin/update-password" element={<AdminUpdatePassword />} />
+              <Route exact path="/admin/manage-users" element={<ViewUser />} />
 
-            <Route exact path="/" element={<Home />} />
-            <Route exact path="/about" element={<About />} />
-            <Route exact path="/contactUs" element={<ContactUs />} />
-            <Route exact path="/apartmentResult" element={<ApartementResult />} />
-            <Route exact path="/property" element={<Property />} />
-          </Routes>
-        </Fragment>
-      </BrowserRouter>
+              <Route exact path="/" element={<Home />} />
+              <Route exact path="/about" element={<About />} />
+              <Route exact path="/contactUs" element={<ContactUs />} />
+              <Route exact path="/apartmentResult" element={<ApartementResult />} />
+              <Route exact path="/property" element={<Property />} />
+              <Route exact path="/receiver" element={<Receiver />} />
+              <Route exact path="/chat" element={<Chat />} />
+              <Route exact path="/agentResult" element={<AgentResult />} />
+            </Routes>
+          </Fragment>
+        </BrowserRouter>
       </AlertState>
     </>
   );

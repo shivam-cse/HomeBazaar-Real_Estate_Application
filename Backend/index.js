@@ -19,7 +19,7 @@ app.use('/api/auth/buyer', require('./routes/authentication/buyer'));
 app.use('/api/auth/agent', require('./routes/authentication/agent'));
 app.use('/api/apartment/', require('./routes/apartment'));
 app.use('/api/complaint/', require('./routes/complaint'));
-
+app.use("/api/messages", require('./routes/message'));
 //our server listing at port number 5000
 app.listen(PORT, () =>{
     console.log(`Server is runing at port ${PORT}`)

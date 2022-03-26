@@ -2,13 +2,16 @@ import React, { useEffect, useState } from 'react'
 import '../css/Dashboard.css'
 import Alert from '../Alert'
 import { NavLink } from 'react-router-dom';
+import Receiver from '../chat/Receiver';
 
 
 export default function Dashboard() {
     const host = "http://localhost:5000";
 
     //useState hook to maintain the user state
-    const [userDetails, setuserDetails] = useState({ name: "", email: "", contact:"", area:"", charges:"" })
+    const [userDetails, setuserDetails] = useState({ name: "", email: "", contact: "", area: "", charges: "", id: "" })
+    const [loading, setloading] = useState(true);
+
     //This is function to fect user details
     const getUserDetails = async (e) => {
         //API call to fetch user data
@@ -25,27 +28,28 @@ export default function Dashboard() {
 
         if (json.success) {
             //when we get the user data successfully, set that
-            setuserDetails({ name: json.agent.name, email: json.agent.email, contact:json.agent.contactNumber, area:json.agent.workingArea, charges:json.agent.charges})
+            setuserDetails({ name: json.user.name, email: json.user.email, contact: json.user.contactNumber, area: json.user.workingArea, charges: json.user.charges, id: json.user._id })
         }
         else {
             alert("Your credentails is not valid. please try to login again!")
         }
-
+        setloading(false);
     }
-    
-//Runs only on the first render page to get user data
+
+    //Runs only on the first render page to get user data
     useEffect(() => {
         getUserDetails();
-        
+
     }, [])
 
     //function to capitalize any string
     function capitalize(name) {
         return name.replace(/\b(\w)/g, s => s.toUpperCase());
-      }
+    }
     return (
-        <>
-        <Alert />
+        <div>
+        {!loading?<div>
+            <Alert />
             <NavLink to="/buyer/chat" className="chat"><i className="chat-icon fab fa-rocketchat" ></i></NavLink>
             <div className='dashboard-top bg-primary text-white'>Dashboard </div>
             <div className='dashboard'>
@@ -60,7 +64,7 @@ export default function Dashboard() {
                         </div>
                         <div className="update">
                             <div >
-                                <NavLink to= "/agent/update-profile" state={{userDetails}}  ><button type="button" className="btn btn-outline-primary update-btn">Update Profile</button></NavLink>
+                                <NavLink to="/agent/update-profile" state={{ userDetails }}  ><button type="button" className="btn btn-outline-primary update-btn">Update Profile</button></NavLink>
                             </div>
                             <div >
                                 <NavLink to="/agent/update-password"  ><button type="button" className="btn btn-outline-primary update-btn">Update Password</button></NavLink>
@@ -68,14 +72,15 @@ export default function Dashboard() {
                         </div>
                     </div>
                     <div className="col-sm-7">
-
+                        <h2 style={{ margin: "auto" }}>Your chat history</h2>
+                        <div className='chat-section' >
+                            <Receiver id={userDetails.id} />
+                        </div>
                     </div>
                 </div>
             </div>
-
-
-
-        </>
+        </div>:<div></div>}
+        </div>
 
     )
 }

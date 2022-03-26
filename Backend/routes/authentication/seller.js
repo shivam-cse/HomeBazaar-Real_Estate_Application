@@ -289,6 +289,33 @@ router.get('/alluser', async (req, res) => {
   }
 })
 
+
+//Router 8 : get user bu Id  using GET : api/auth/seller/:id - Login required
+router.get("/getseller/:id",
+  async (req, res) => {
+    
+    try {
+
+      let SellerToBeFound = req.params.id;
+      temp = await User.findById(SellerToBeFound)
+      if (temp == null) {
+        res.status(404).json({ success: false, error: "Seller does not exists" });
+      }
+  else {
+        resultOffindSeller = await User.findById(SellerToBeFound)
+        console.log('found seller details : ', resultOffindSeller)
+        res.status(200).json({ success: true, user : resultOffindSeller });
+
+      }
+
+    }
+    catch (error) {
+      console.error(error.message);
+      return res.status(500).json({success:false, error: "Internal SERVER error !!!!"});
+    }
+  }
+);
+
 module.exports = router;
 
 

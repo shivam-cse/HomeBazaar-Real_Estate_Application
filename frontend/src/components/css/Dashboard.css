@@ -1,69 +1,75 @@
-
-.dashboard{
-    max-width: 100%;
-    overflow-x: hidden;
-    margin: auto;
-    /* margin-top: 5vh; */
-    /* font-size: 35px; */
+.dashboard {
+  max-width: 100%;
+  overflow-x: hidden;
+  margin: auto;
+  /* margin-top: 5vh; */
+  /* font-size: 35px; */
 }
-.dashboard-top{
-     font-size: 25px;
-     text-align: center;
-     margin: 5px;
-}
-
-.profile{
-    margin: 5px;
-    font-weight: bold;
-    width: 60%;
-    min-width: 25vw;
-    background-color: rgb(235, 236, 236);
-    font-size: large;
-    padding: 5px;
+.dashboard-top {
+  font-size: 25px;
+  text-align: center;
+  margin: 5px;
 }
 
-.profile-data{
-    margin: 5px;
-    padding: 2px;
+.profile {
+  margin: 5px;
+  font-weight: bold;
+  width: 60%;
+  min-width: 25vw;
+  background-color: rgb(235, 236, 236);
+  font-size: large;
+  padding: 5px;
 }
 
-.profile-data span{
-    color: red;
+.profile-data {
+  margin: 5px;
+  padding: 2px;
 }
 
-.update-btn{
-    min-width: 25vw;
-    margin: 5px;
+.profile-data span {
+  color: red;
 }
 
-.chat{
-    position: fixed;
-    bottom: 20px;
-    right: 60px; 
-    /* width: auto; */
+.update-btn {
+  min-width: 25vw;
+  margin: 5px;
 }
 
-.chat-icon{
-    font-size: 100px;
+.chat {
+  position: fixed;
+  bottom: 20px;
+  right: 60px;
+  /* width: auto; */
 }
 
-
-.profile-update{
-    width: 50%;
-    margin: auto;
+.chat-icon {
+  font-size: 100px;
 }
 
-.fixed-position-navbar{
-    position: sticky;
-    left: 0%;
-    top: 0%;
-    z-index: 1;
+.profile-update {
+  width: 50%;
+  margin: auto;
 }
 
-.fixed-position{
-    position: sticky;
-    /* left: 25%; */
-    top: 9%;
-    z-index: 1;
-    margin: auto;
+.fixed-position-navbar {
+  position: sticky;
+  left: 0%;
+  top: 0%;
+  z-index: 1;
+}
+
+.fixed-position {
+  position: sticky;
+  /* left: 25%; */
+  top: 9%;
+  z-index: 1;
+  margin: auto;
+}
+
+.chat-section {
+  border: 1px solid whitesmoke;
+  margin-top: 20px;
+  width: 30vw;
+  overflow-y: scroll;
+  height: 70vh;
 }
