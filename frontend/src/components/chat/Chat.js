@@ -56,20 +56,25 @@ function Chat() {
     useEffect(() => {
         socket.current = io('ws://localhost:4000')
         socket.current.on("getMessage", data => {
-            let newMsg = {message:data, fromSelf:false}
+            console.log("get Message shivam ", data)
+            let newMsg = {message:data.message, fromSelf:false}
             setarrivalMessage(newMsg);
         })
     }, [])
 
     useEffect(() => {
-        if(!arrivalMessage)
-       {
-        console.log("arrival msg change ", arrivalMessage)
-        setmessage((prev) => [...prev, arrivalMessage])
-       }
+        try {
+            if(arrivalMessage !== null)
+            {
+                console.log("arrival msg change ", arrivalMessage)
+                setmessage((prev) => [...prev, arrivalMessage])
+            }
+        } catch (error) {
+            console.log("error ", error)
+        }
     }, [arrivalMessage])
     
-    
+
     useEffect(() => {
       socket.current.emit("addUser", senderId)
       socket.current.on("getUsers", (users) => {

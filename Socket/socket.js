@@ -1,6 +1,6 @@
 const io = require('socket.io')(4000, {
     cors:{
-        origin:"http://localhost:3000",
+        origin:"http://localhost:3000"
     },
 })
 
@@ -27,8 +27,9 @@ io.on("connection", (socket) => {
     } )
 
     socket.on("sendMessage", ({senderId, receiverId, message}) => {
+        console.log("send message") 
         const user = getUser(receiverId)
-        io.to(user.socketId).emit('getMessage', {
+        io.to(user?.socketId).emit('getMessage', {
             message
         })
     })
