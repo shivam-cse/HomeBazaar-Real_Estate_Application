@@ -6,12 +6,15 @@ import Alert from '../Alert';
 const host = 'http://localhost:5000';
 
 function ApartementView(props) {
-
+   //it is for handle the state of  apartment
     const [apartements, setApartements] = useState([]);
+    //state for loadding
     const [lodding, setlodding] = useState(true)
+    //context api for alert message
     const context = useContext(AlertContext);
-    const { alert, addAlert } = context;
-    //get all apartment of loggined user(seller)
+    // Destructuring alert and addAlert  from context api
+    const { addAlert } = context;
+    //get all apartment of logined user(seller)
     const getApartment = async () => {
         const responce = await fetch(`${host}/api/apartment/fetchSellerApartment`, {
             method: 'GET',
@@ -37,11 +40,12 @@ function ApartementView(props) {
                 'auth-token': localStorage.getItem('token')
             }
         });
-
+        
         const json = await response.json()
+        //delete aprtment from apartment state
         const newAprtments = apartements.filter((apartement) => { return apartement._id !== id })
+        //set new apartment in apartment state
         setApartements(newAprtments)
-        // console.log(json)
         if (json.success) {
             addAlert({
                 type: 'success',

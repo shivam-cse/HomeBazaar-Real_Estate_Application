@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useLocation } from "react-router-dom";
 import ComplaintItem from './ComplaintItem';
 import Spinner from '../Spinner'
 const host = 'http://localhost:5000';
 
 function ViewComplaint() {
 
-    const [complaints, setcomplaints] = useState([]);
-    const [lodding, setlodding] = useState(true)
+    const [complaints, setcomplaints] = useState([]);   // state for storing complaints
+    const [lodding, setlodding] = useState(true)       // checking content loading
 
+
+    //API call to see all complaints
     const getComplaint = async () => {
         const responce = await fetch(`${host}/api/complaint/fetchAll`, {
             method: 'GET',
@@ -19,12 +20,12 @@ function ViewComplaint() {
         });
 
         const output = await responce.json();
-        setcomplaints(output.complaints);
-        setlodding(false)
+        setcomplaints(output.complaints);     // updating state of complaints  
+        setlodding(false)                    // updating state of setLodding
     }
 
     useEffect(() => {
-        getComplaint();
+        getComplaint();   // calling getComplaint() function
     }, [])
 
     return (

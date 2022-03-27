@@ -82,34 +82,34 @@ router.put('/update/:id', fetchUser, async (req, res) => {
 
     const { address, area, type, bedrooms, size, price } = req.body;
 
-    // create new notes objects
+    // create new apartment(updated)
     const newApartment = {};
     if (address) {
         if (address.length <= 2) {
             return res.status(400).json({ "errors": "Address must be atleast 2 characters" });
         }
-        newApartment.address = address
+        newApartment.address = address   // updating address in newApartment(variable)
     }
     if (area) {
         if (area.length <= 2) {
             return res.status(400).json({ "errors": "area must be atleast 2 characters" });
         }
-        newApartment.area = area
+        newApartment.area = area        // updating area in newApartment(variable)
     }
     if (type) {
         if (type.length <= 2) {
             return res.status(400).json({ "errors": "Apartment type must be atleast 2 characters" });
         }
-        newApartment.type = type
+        newApartment.type = type       // updating apartment type in newApartment(variable)
     }
     if (bedrooms) {
         if (bedrooms <= 0) {
             return res.status(400).json({ "errors": "no of bedrooms must be atleast 1" });
         }
-        newApartment.bedrooms = bedrooms
+        newApartment.bedrooms = bedrooms    // updating bedrooms in newApartment(variable)
     }
-    if (size) { newApartment.size = size }
-    if (price) { newApartment.price = price }
+    if (size) { newApartment.size = size }    // updating sizein newApartment(variable)
+    if (price) { newApartment.price = price } // updating price in newApartment(variable)
 
     try {
         //find the existing apartment
@@ -154,7 +154,9 @@ router.delete('/delete/:id', fetchUser, async (req, res) => {
         }
         //delete the apartment
         const deletedApartment = await Apartment.findByIdAndDelete(req.params.id)
+        
         success = true;
+
         //send the message that  apartment has been successfully deleted 
         res.json({ success, message: "Aprtment successfully deleted" });
     } catch (error) {

@@ -4,23 +4,27 @@ import '../css/UpdateProfile.css'
 import Alert from '../Alert'
 import AlertContext from '../context/AlertContext'
 const AgentSignUp = () => {
+
+    //UseState Hook for setting credentials of new agent
     const [credentials, setCredentials] = useState({ name: "", email: "", password: "", workingArea: "", charges: "", contactNumber: "" })
-    // using to accessed data without passing the props down manually to each level(component hierarch)
 
 
-    const context = useContext(AlertContext);
-    const { alert, addAlert } = context;
+    const context = useContext(AlertContext);   // context API for custom alerts
+    const {  addAlert } = context;       // destructuring addAlert from AlertContext
 
-    let navigate = useNavigate();
+    let navigate = useNavigate();             // for page navigation
+
+    // Handling form submit of agent Signup
     const handleSubmit = async (e) => {
 
-        e.preventDefault();
+        e.preventDefault();   // to prevent loading of page on form submit
 
-        // making agent name lowercase
-
+        // destructuring name,email ,password,workingArea,charges,contactNumber from credential state
         const { name, email, password, workingArea, charges, contactNumber } = credentials;
 
-        let areaNEW = workingArea.toLowerCase();
+        let areaNEW = workingArea.toLowerCase();    // converting working area of agent in lowercase before insertion in db 
+
+        // API call for new agent registration/signup
         const response = await fetch(
             'http://localhost:5000/api/auth/agent/signup',
             {
@@ -31,10 +35,10 @@ const AgentSignUp = () => {
                 body: JSON.stringify({ name, email, password, workingArea: areaNEW, charges, contactNumber }),
             }
         );
-        const json = await response.json();
-        console.log(json);
-        // save the token and redirect
+        const json = await response.json();    // getting response 
+
         if (json.success) {
+            // save the token and redirect
             localStorage.setItem('token', json.authtoken)
             localStorage.setItem('userType', "agent")
             addAlert({
@@ -43,7 +47,8 @@ const AgentSignUp = () => {
             })
             navigate("/")
         }
-        else {
+        else    // if some error is there or agent(with passed credentials) already exists 
+        {
             addAlert({
                 type: 'danger',
                 msg: json.error
@@ -52,7 +57,7 @@ const AgentSignUp = () => {
 
     }
     const onChange = (e) => {
-        setCredentials({ ...credentials, [e.target.name]: e.target.value })
+        setCredentials({ ...credentials, [e.target.name]: e.target.value })   // setting state of credentials 
     }
     return (
         <div>

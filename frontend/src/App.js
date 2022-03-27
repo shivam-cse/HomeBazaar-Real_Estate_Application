@@ -5,40 +5,49 @@ import { BrowserRouter } from 'react-router-dom'
 import Navbar from './components/Navbar';
 import AlertState from "./components/context/AlertState";
 
+//import all component of buyer
 import BuyerDashboard from './components/buyer/Dashboard';
 import BuyerUpdateProfile from './components/buyer/UpdateProfile';
 import BuyerUpdatePassword from './components/buyer/UpdatePassword';
 
+//import all component of Agent
 import AgentDashboard from './components/agent/Dashboard';
 import AgentUpdateProfile from './components/agent/UpdateProfile';
 import AgentUpdatePassword from './components/agent/UpdatePassword';
 
+//import all component of Admin
 import AdminDashboard from './components/admin/Dashboard';
 import AdminUpdateProfile from './components/admin/UpdateProfile';
 import AdminUpdatePassword from './components/admin/UpdatePassword';
 import ViewComplaint from './components/admin/ViewComplaint';
 import ViewUser from './components/admin/ViewUser';
 
+//import all component of Seller and its apartment
 import SellerDashboard from './components/seller/Dashboard';
 import SellerUpdateProfile from './components/seller/UpdateProfile';
 import SellerUpdatePassword from './components/seller/UpdatePassword';
 import SellerApartmentView from './components/seller/ApartementView';
 import SellerAddApartment from './components/seller/AddApartment';
-import ApartementResult from './components/apartment/ApartementResult';
-import Property from './components/apartment/Property';
 
 import Home from './components/Home';
-import About from './components/About';
 import ContactUs from './components/ContactUs';
 import Complaints from './components/Complaints';
+import AboutUs from './components/AboutUs/AboutUs';
+
+//import all signup/login of all User
 import BuyerSignup from './components/login_signup/BuyerSignup';
 import AgentSignup from './components/login_signup/AgentSignup';
 import SellerSignup from './components/login_signup/SellerSignup';
-
 import Login from './components/login_signup/Login';
+
+//import chat components
 import Receiver from './components/chat/Receiver';
 import Chat from './components/chat/Chat';
+
+//import search components (home)
 import AgentResult from './components/agent/AgentResult';
+import ApartementResult from './components/apartment/ApartementResult';
+import Property from './components/apartment/Property';
 
 function App() {
   return (
@@ -48,7 +57,6 @@ function App() {
           <Fragment>
             <Navbar />
             <Routes>
-
               <Route exact path="/login" element={<Login />} />
 
               <Route exact path="/buyersignup" element={<BuyerSignup />} />
@@ -77,7 +85,7 @@ function App() {
               <Route exact path="/admin/manage-users" element={<ViewUser />} />
 
               <Route exact path="/" element={<Home />} />
-              <Route exact path="/about" element={<About />} />
+              <Route exact path="/about" element={<AboutUs />} />
               <Route exact path="/contactUs" element={<ContactUs />} />
               <Route exact path="/apartmentResult" element={<ApartementResult />} />
               <Route exact path="/property" element={<Property />} />

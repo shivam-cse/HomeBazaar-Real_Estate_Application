@@ -10,7 +10,7 @@ const jwt_secret = process.env.jwt_secret;
 // ROUTE 1: create a complaint using POST "/api/complaint/create" 
 router.post("/create",
     [ 
-        body("email", "Enter  a valid email").isEmail(),
+        body("email", "Enter  a valid email").isEmail(),                         // email format valid
         body("title", "Enter  a valid  title").isLength({ min: 5 }),              // title must be at least 5 chars long
         body("description", "Enter  a valid description").isLength({ min: 10 })  // description must be at least 5 chars long
 
@@ -24,13 +24,14 @@ router.post("/create",
         }
         try {
 
-            //creating compalint and save
+            //creating compalaint and save
             let complaint = await Complaint.create({
                 UserEmail: req.body.email,
                 title: req.body.title,
                 description: req.body.description
             });
             success = true
+            // sending response 
             res.json({success, message:"Successfully registered your complaint !"});
         } catch (error) {
             console.error(error.message);
@@ -52,7 +53,7 @@ router.get("/fetchAll", fetchuser, async (req, res) => {
         success = true
         res.json({success, complaints});
     }
-  
+  // error handling
     catch (error) {
       console.error(error.message);
       res.status(500).json({success, error:"Internal Server Error"});

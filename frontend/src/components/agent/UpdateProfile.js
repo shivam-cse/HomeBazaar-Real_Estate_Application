@@ -30,9 +30,9 @@ export default function UpdateProfile() {
             body: JSON.stringify({name:updateProfile.name, workingArea:updateProfile.area, contactNumber:UpdateProfile.number, charges:updateProfile.charges}) // body data type must match "Content-Type" header
         });
         const json = await response.json();
-        console.log(json);
+
         if(json.success){
-            addAlert({
+            addAlert({                   //Adding success alert 
                 type: 'success',
                 msg: 'Profile Updated Successfully'
             })
@@ -40,7 +40,7 @@ export default function UpdateProfile() {
             
         }
         else{ 
-            addAlert({
+            addAlert({                 // Adding error alert
                 type: 'danger',
                 msg: json.error
             })
@@ -48,8 +48,8 @@ export default function UpdateProfile() {
     }
 
     const onChange = (e) => {
-        // console.log("onchange", name);
-        setupdateProfile({ ...updateProfile, [e.target.name]: e.target.value })
+
+        setupdateProfile({ ...updateProfile, [e.target.name]: e.target.value })   // updating state of updateProfile
     }
 
     

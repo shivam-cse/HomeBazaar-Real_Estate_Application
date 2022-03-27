@@ -5,15 +5,16 @@ import Spinner from '../Spinner'
 const host = 'http://localhost:5000';
 
 function ApartementResult(props) {
-    // const { area } = props;
 
-    const location = useLocation()
-    const { area } = location.state
 
-    let areaNEW = area.toLowerCase();
-    const [apartements, setApartements] = useState([]);
-    const [lodding, setlodding] = useState(true)
+    const location = useLocation()     // Getting location of  page
+    const { area } = location.state    // destructuring area from state
 
+    let areaNEW = area.toLowerCase();   // converting area entered into lowecase 
+    const [apartements, setApartements] = useState([]);    // useState for apartments
+    const [lodding, setlodding] = useState(true)           // useState for loading
+
+    //API call for getting apartments as per passed/given area
     const getApartment = async () => {
         const responce = await fetch(`${host}/api/apartment/getApartment/${areaNEW}`, {
             method: 'GET',
@@ -22,13 +23,13 @@ function ApartementResult(props) {
             },
         });
 
-        const output = await responce.json();
-        setApartements(output);
-        setlodding(false)
+        const output = await responce.json();   // matched/found apartments result
+        setApartements(output);                // setting state for apartments
+        setlodding(false)                      // setting state for loading
     }
 
     useEffect(() => {
-        getApartment();
+        getApartment();   // calling getApartment()
     }, [])
 
     return (

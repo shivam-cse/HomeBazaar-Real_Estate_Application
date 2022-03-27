@@ -4,26 +4,26 @@ import { useNavigate } from 'react-router-dom';
 import Alert from '../Alert'
 import AlertContext from '../context/AlertContext'
 export default function UpdateProfile() {
+    const host = "http://localhost:5000";
 
     //it is for handle the state of Adding apartment
     const [addApartment, setaddApartment] = useState({ address: "", area: "", bedrooms: "", size: "", price: "" });
+   //context api for alert message
     const context = useContext(AlertContext);
-    const { alert, addAlert } = context;
+    const { addAlert } = context;  //// Destructuring alert and addAlert  from context api
     //state to maintain apartment type 
     const [type, setType] = useState("");
 
-    //to navigate 
+    //to navigate page
     const navigate = useNavigate();
-    const host = "http://localhost:5000";
 
     //function to Add apartment when the user click on add button
     const handleAddApartment = async (e) => {
         //this is to do not reload our page
         e.preventDefault();
-
-
+        //convert area into lowercase
         let areaNEW = addApartment.area.toLowerCase();
-        //API call to add the apartment into our database
+        //API call to add the apartment in database
         const response = await fetch(`${host}/api/apartment/add`, {
             method: 'POST',
             headers: {
@@ -33,14 +33,12 @@ export default function UpdateProfile() {
             body: JSON.stringify({ address: addApartment.address, area: areaNEW, type: type, bedrooms: addApartment.bedrooms, size: addApartment.size, price: addApartment.price })
         });
         const json = await response.json();
-        // console.log(json);
         if (json.success) {
             addAlert({
                 type: 'success',
                 msg: 'Added apartment Successfully'
             })
             navigate('/seller/dashboard')
-            // alert("Updated")
         }
         else {
             addAlert({
@@ -51,7 +49,6 @@ export default function UpdateProfile() {
     }
 
     const onChange = (e) => {
-        // console.log("onchange", name);
         setaddApartment({ ...addApartment, [e.target.name]: e.target.value })
     }
 

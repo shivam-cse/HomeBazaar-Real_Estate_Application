@@ -9,16 +9,19 @@ const host = 'http://localhost:5000';
 
 function ViewUser() {
 
-    const context = useContext(AlertContext);
-    const { addAlert } = context;
+    const context = useContext(AlertContext);         // context API for custom alerts
+    const { addAlert } = context;                   //  destructuring addAlert from AlertContext
 
-    const [buyers, setbuyer] = useState([]);
-    const [sellers, setseller] = useState([]);
-    const [agents, setagent] = useState([]);
-    const [lodding, setlodding] = useState(true)
+    const [buyers, setbuyer] = useState([]);    // use state for setting buyer details
+    const [sellers, setseller] = useState([]);  // use state for setting seller details
+    const [agents, setagent] = useState([]);    // use state for setting agent details 
+    const [lodding, setlodding] = useState(true)    // checking content loading
 
-    const handleOnclick = async (id, userType) => {
 
+    //function for  users deletion
+    const handleOnclick = async (id, userType) => {   
+        
+        //API call for deleting a user
         const response = await fetch(
             `http://localhost:5000/api/auth/${userType}/delete/${id}`,
             {
@@ -45,21 +48,24 @@ function ViewUser() {
             })
             return;
         }
-
+         //  Deleting buyer  from buyerState in frontend
         if (userType === 'buyer') {
             const newbuyers = buyers.filter((buyer) => { return buyer._id !== id })
             setbuyer(newbuyers)
         }
+             //  Deleting seller  from sellerState in frontend
         else if (userType === 'seller') {
             const newsellers = sellers.filter((seller) => { return seller._id !== id })
             setseller(newsellers)
         }
+           //  Deleting agent  from agentState in frontend
         else {
             const newagents = agents.filter((agent) => { return agent._id !== id })
             setagent(newagents)
         }
     }
-
+ 
+    // API call for getting all agents details 
     const getUser = async () => {
         let responce = await fetch(`${host}/api/auth/agent/alluser`, {
             method: 'GET',
@@ -71,7 +77,7 @@ function ViewUser() {
         let output = await responce.json();
         setagent(output);
 
-
+    // API call for getting all buyers details   
         responce = await fetch(`${host}/api/auth/buyer/alluser`, {
             method: 'GET',
             headers: {
@@ -82,6 +88,7 @@ function ViewUser() {
         output = await responce.json();
         setbuyer(output);
 
+    // API call for getting all seller details 
         responce = await fetch(`${host}/api/auth/seller/alluser`, {
             method: 'GET',
             headers: {
@@ -91,11 +98,11 @@ function ViewUser() {
 
         output = await responce.json();
         setseller(output);
-        setlodding(false)
+        setlodding(false)       // updating state of setLodding
     }
 
     useEffect(() => {
-        getUser();
+        getUser();  // calling getUser()
     }, [])
 
     return (

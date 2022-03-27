@@ -6,12 +6,14 @@ function ALert() {
 
     // using to accessed data without passing the props down manually to each level(component hierarch)
     const context = useContext(AlertContext);
-    const { alert, addAlert } = context;
+    const { alert, addAlert } = context; // getting alert(state) and addlert(fnction)
 
+    // after 5 sec removing alert
     setTimeout(() => {
         addAlert(null);
     }, 5000);
 
+    // captilize the first letter of word
     const capitalize = (word) => {
         const lower = word;
         return lower.charAt(0).toUpperCase() + lower.slice(1);

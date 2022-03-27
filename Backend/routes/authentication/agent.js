@@ -155,7 +155,7 @@ router.get("/getUser", fetchUser, async (req, res) => {
         // finding agent with id
         const agent = await Agent.findById(userid).select("-password");
         success = true;
-        res.json({ success, user:agent });
+        res.json({ success, user: agent });
     } catch (error) {
         console.error(error.message);
         res.status(500).json({ success, error: "Internal Serveral error" });
@@ -300,7 +300,7 @@ router.delete("/delete/:id", fetchUser, async (req, res) => {
     }
 })
 
-//Route 7 :This api to get all user  GET : api/agent/alluser - login required
+//Route 7 :This api to get all user  GET : api/auth/agent/alluser - login required
 router.get('/alluser', async (req, res) => {
 
     try {
@@ -315,18 +315,19 @@ router.get('/alluser', async (req, res) => {
     }
 })
 
-//Route 8:This api to get all Apartment of particular area api/apartment/getApartment/:area - login required
+//Route 8:This api to get all agents  of particular area api/auth/agent/getAgent/:area- login required
 router.get('/getAgent/:area', async (req, res) => {
 
     try {
-        // find the all apartment of particular seller from database
+        // find the all agents of particular area
         const getAllAgent = await Agent.find({ workingArea: req.params.area });
+        
         //sent the response to client
-        res.json({success : true ,agents : getAllAgent})
+        res.json({ success: true, agents: getAllAgent })
 
     } catch (error) {
         //handle the error
-        res.status(500).json({succes: false ,error: "internal server error" });
+        res.status(500).json({ succes: false, error: "internal server error" });
     }
 })
 

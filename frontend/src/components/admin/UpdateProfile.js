@@ -4,19 +4,19 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import AlertContext from '../context/AlertContext'
 
 export default function UpdateProfile() {
+    const host = "http://localhost:5000";
 
-    const location = useLocation()
-    const { userDetails } = location.state
+    const location = useLocation()      // Getting location of  page
+    const { userDetails } = location.state  
 
-    const context = useContext(AlertContext);
-    const { addAlert } = context;
-
+    const context = useContext(AlertContext);  // context API for custom alerts
+    const { addAlert } = context;             //  destructuring addAlert from AlertContext
+ 
     //it is for handle the state of updateProfile
     const [updateProfile, setupdateProfile] = useState({ name: userDetails.name });
 
     //to navigate 
     const navigate = useNavigate();
-    const host = "http://localhost:5000";
 
     //function to update profile
     const handleUpdateProfile = async (e) => {
@@ -27,13 +27,13 @@ export default function UpdateProfile() {
         const response = await fetch(`${host}/api/auth/admin/update`, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json',   // body data type must match "Content-Type" header
                 'auth-token': localStorage.getItem('token')
             },
-            body: JSON.stringify({ name: updateProfile.name }) // body data type must match "Content-Type" header
+            body: JSON.stringify({ name: updateProfile.name }) 
         });
         const json = await response.json();
-        // console.log(json);
+ 
         if (json.success) {
             addAlert({
                 type: 'success',
@@ -50,7 +50,7 @@ export default function UpdateProfile() {
         }
     }
     const onChange = (e) => {
-        // console.log("onchange", name);
+     
         setupdateProfile({ ...updateProfile, [e.target.name]: e.target.value })
     }
 

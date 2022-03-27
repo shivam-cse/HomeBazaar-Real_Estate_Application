@@ -4,14 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import AlertContext from '../context/AlertContext'
 import Alert from '../Alert'
 export default function UpdatePassword() {
+    const host = "http://localhost:5000";
 
     //it is for handle the state of updated Password
     const [updatePassword, setupdatePassword] = useState({ oldPassword: "", newPassword: "", cnewPassword: "" });
+      //context api for alert message
     const context = useContext(AlertContext);
-    const { alert, addAlert } = context;
-    //to navigate 
+    const { addAlert } = context;
+    //to navigate page
     const navigate = useNavigate();
-    const host = "http://localhost:5000";
 
     //function to update user's password
     const handleUpdatePassword = async (e) => {
@@ -37,7 +38,6 @@ export default function UpdatePassword() {
         });
 
         const json = await response.json();
-        // console.log("Hello",json);
         if (json.success) {
             addAlert({
                 type: 'success',
@@ -46,9 +46,6 @@ export default function UpdatePassword() {
             navigate('/seller/dashboard')
         }
         else {
-
-            // console.log('error in update seller paswrod')
-            // console.log(json.error)
             addAlert({
                 type: 'danger',
                 msg: json.error
@@ -56,7 +53,6 @@ export default function UpdatePassword() {
         }
     }
     const onChange = (e) => {
-        // console.log("onchange", password);
         setupdatePassword({ ...updatePassword, [e.target.name]: e.target.value })
     }
 

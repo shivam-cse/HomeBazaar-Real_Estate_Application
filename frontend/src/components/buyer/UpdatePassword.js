@@ -5,20 +5,23 @@ import { useNavigate } from 'react-router-dom';
 import Alert from '../Alert'
 export default function UpdatePassword() {
 
+    const host = "http://localhost:5000";    //HOST
+
     //it is for handle the state of updated Password
     const [updatePassword, setupdatePassword] = useState({ oldPassword: "", newPassword: "", cnewPassword: "" });
-    const context = useContext(AlertContext);
-    const { alert, addAlert } = context;
+
+    const context = useContext(AlertContext);    // context API for custom alerts
+    const { alert, addAlert } = context;         // destructuring addAlert from AlertContext
+    
     //to navigate 
     const navigate = useNavigate();
-    const host = "http://localhost:5000";
 
     //function to update user's password
     const handleUpdatePassword = async (e) => {
         //avoid page reloading 
         e.preventDefault();
 
-        //if the user entered new password is not same
+        //if the user entered password and confirm password are not same
         if (updatePassword.cnewPassword !== updatePassword.newPassword) {
             addAlert({
                 type: 'danger',
@@ -26,6 +29,7 @@ export default function UpdatePassword() {
             })
             return;
         }
+
         //API call to update the password our user
         const response = await fetch(`${host}/api/auth/buyer/updatePassword`, {
             method: 'PUT',
@@ -36,8 +40,8 @@ export default function UpdatePassword() {
             body: JSON.stringify({ oldPassword: updatePassword.oldPassword, newPassword: updatePassword.newPassword }) // body data type must match "Content-Type" header
         });
 
-        const json = await response.json();
-        // console.log(json);
+        const json = await response.json();  // getting response
+
         if (json.success) {
             addAlert({
                 type: 'success',
@@ -53,9 +57,10 @@ export default function UpdatePassword() {
             })
         }
     }
+    // function to detect inputs in the form
     const onChange = (e) => {
-        // console.log("onchange", password);
-        setupdatePassword({ ...updatePassword, [e.target.name]: e.target.value })
+
+        setupdatePassword({ ...updatePassword, [e.target.name]: e.target.value })   //setting State of updatePassword
     }
 
     return (

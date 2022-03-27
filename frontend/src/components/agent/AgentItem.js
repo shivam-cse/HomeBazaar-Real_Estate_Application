@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function ApartmentItem(props) {
 
-    const { agent, sender, receiver } = props;
+    const { agent, sender, receiver } = props;    // destrucuturing props sent from AgentResult
 
     return (
         <div className="card" style={{ width: "40vw", margin: "30px auto" }}>

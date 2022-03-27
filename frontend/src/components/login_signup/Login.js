@@ -6,14 +6,18 @@ import ALert from '../Alert'
 const Login = () => {
 
     // using to accessed data without passing the props down manually to each level(component hierarch)
-    const context = useContext(AlertContext);
-    const { alert, addAlert } = context;
+    const context = useContext(AlertContext);    // context API for custom alerts
+    const { addAlert } = context;        // destructuring addAlert from AlertContext
 
-    const [credentials, setCredentials] = useState({ email: "", password: "" })
-    const [userType, setuserType] = useState("")
-    let navigate = useNavigate();
+    const [credentials, setCredentials] = useState({ email: "", password: "" })  // useState hook for credentials
+    const [userType, setuserType] = useState("")       // useState hook for userType 
+    let navigate = useNavigate();    // for navigation/page redirection
+
+    //Function to handle form on submit
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // stops page reloading
+        
+        //API call to login seller/buyer/agent/admin as per given credentials
         const response = await fetch(
             `http://localhost:5000/api/auth/${userType}/login`,
             {
@@ -25,9 +29,8 @@ const Login = () => {
             }
         );
         const json = await response.json();
-        console.log(json);
         if (json.success) {
-            // save the token and redirect
+            // save the token and userType  then redirect
             localStorage.setItem('token', json.authtoken)
             localStorage.setItem('userType', userType)
             addAlert({
@@ -37,7 +40,7 @@ const Login = () => {
 
             navigate('/')
         }
-        else {
+        else {   // Wrong Credentials used
             addAlert({
                 type: 'danger',
                 msg: 'Invalid credential'
@@ -45,11 +48,11 @@ const Login = () => {
         }
     }
     const onChange = (e) => {
-        setCredentials({ ...credentials, [e.target.name]: e.target.value })
+        setCredentials({ ...credentials, [e.target.name]: e.target.value })   // setting state for credentials of logged in user
     }
 
     const onChangeType = (e) => {
-        setuserType(e.target.value)
+        setuserType(e.target.value)    //Setting state for userType(whether it is seller,buyer,admin or agent)
     }
 
     return (

@@ -1,6 +1,7 @@
 import React from 'react'
 import spinner from '../img/Spinner.gif'
 
+// Spinner when component is  loading
 const Spinner = () => {
 
     return (

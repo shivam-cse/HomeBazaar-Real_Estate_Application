@@ -1,8 +1,9 @@
 import React from 'react'
 
+
 function ComplaintItem(props) {
 
-    const { complaint , index} = props;
+    const { complaint , index} = props;    // Destructuring complaint and index from props
 
     return (
         <div className="card" style={{ width: "50vw", margin: "30px auto" , backgroundColor:'whitesmoke', borderRadius : '10px' }}>

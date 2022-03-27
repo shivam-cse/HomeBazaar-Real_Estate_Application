@@ -1,26 +1,28 @@
-import React ,{useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import images from '../images'
-import { useLocation , useNavigate , NavLink} from "react-router-dom";
+import { useLocation, useNavigate, NavLink } from "react-router-dom";
 const host = "http://localhost:5000";
 function Property(props) {
-    
-    const navigate = useNavigate();
-    useEffect(() => {
-      if(!localStorage.getItem('token'))
-      {
-          navigate("/");
-      }
-    }, [])
-    
-    const location = useLocation()
-    const { apartement, index } = location.state;
-    const [receiver, setreceiver ]= useState({type:"", name:"", id:""})
-    const [sender, setsender] = useState({type:"", name:"", id:""})
-    const [loading, setloading] = useState(true)
 
-    const userDetails  = async () =>{
+    const navigate = useNavigate();    // for page redirection/navigation
+
+    useEffect(() => {
+        if (!localStorage.getItem('token'))          // only logged in user can see access this page therefore we are verifying here
+        {
+            navigate("/");
+        }
+    }, [])
+
+    const location = useLocation()         // Getting location of  page
+    const { apartement, index } = location.state;    // getting details out of location state
+    const [receiver, setreceiver] = useState({ type: "", name: "", id: "" })   // useState for receiver
+    const [sender, setsender] = useState({ type: "", name: "", id: "" })       // useState for sender 
+    const [loading, setloading] = useState(true)                         // useState for loading 
+
+    //API Call to get details(name,type and id) of user visiting this page 
+    const userDetails = async () => {
         let type = localStorage.getItem('userType')
-         let  response = await fetch(`${host}/api/auth/${type}/getUser`, {
+        let response = await fetch(`${host}/api/auth/${type}/getUser`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -33,10 +35,11 @@ function Property(props) {
 
         if (json.success) {
             //when we get the user data successfully, set that
-            setsender({type:type, name: json.user.name,id:json.user._id })
+            setsender({ type: type, name: json.user.name, id: json.user._id })
         }
 
-         response = await fetch(`${host}/api/auth/seller/getseller/${apartement.seller}`, {
+        // API Call for getting sender details(name,type and id)) whose apartment is shown in this page
+        response = await fetch(`${host}/api/auth/seller/getseller/${apartement.seller}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -44,21 +47,20 @@ function Property(props) {
 
         });
         //getting user data
-         json = await response.json();
+        json = await response.json();
 
         if (json.success) {
             //when we get the user data successfully, set that
-            setreceiver({type:"seller", name: json.user.name,id:apartement.seller })
+            setreceiver({ type: "seller", name: json.user.name, id: apartement.seller })
         }
-        console.log(loading)
         setloading(false);
-        console.log(loading)
+
     }
 
     useEffect(() => {
-        userDetails()
+        userDetails()   // calling userDetails() function
     }, [])
-    
+
 
     return (
         <div style={{ backgroundColor: 'whitesmoke', width: '100%', overflow: 'hidden' }} >
@@ -79,8 +81,8 @@ function Property(props) {
                     </div>
                 </div>
 
-                {!loading ?<div className="col" id='chat'>
-                <NavLink to= "/chat" state={{sender,  receiver}}   ><button type="button" className="btn btn-primary  btn-circle" style={{borderRadius : "400px" , marginTop :'50px'}} >Chat Seller</button></NavLink>
+                {!loading ? <div className="col" id='chat'>
+                    <NavLink to="/chat" state={{ sender, receiver }}   ><button type="button" className="btn btn-primary  btn-circle" style={{ borderRadius: "400px", marginTop: '50px' }} >Chat Seller</button></NavLink>
                 </div> : <div></div>}
             </div>
         </div >

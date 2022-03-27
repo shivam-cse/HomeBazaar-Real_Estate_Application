@@ -2,7 +2,7 @@ import React from 'react'
 import images from '../images'
 
 function ApartmentItem(props) {
-
+ // Destructuring apartment   from props
     const { apartement, index, deleteApartment } = props;
     let no = index % 9;
 

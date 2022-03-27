@@ -5,16 +5,17 @@ import AlertContext from '../context/AlertContext'
 import ALert from '../Alert';
 
 export default function UpdatePassword() {
+    
+    const host = "http://localhost:5000";  // HOST
 
     //it is for handle the state of updated Password
     const [updatePassword, setupdatePassword] = useState({ oldPassword: "", newPassword: "", cnewPassword: "" });
 
-    const context = useContext(AlertContext);
-    const { addAlert } = context;
-
+    const context = useContext(AlertContext);  // context API for custom alerts
+    
+    const { addAlert } = context;  // destructuring addAlert from AlertContext
     //to navigate page
     const navigate = useNavigate();
-    const host = "http://localhost:5000";
 
     //function to update user's password
     const handleUpdatePassword = async (e) => {
@@ -29,7 +30,7 @@ export default function UpdatePassword() {
             })
             return;
         }
-        //API call to update the password our user
+        //API call to update the password of our user
         const response = await fetch(`${host}/api/auth/admin/updatePassword`, {
             method: 'PUT',
             headers: {
@@ -40,7 +41,7 @@ export default function UpdatePassword() {
         });
 
         const json = await response.json();
-        // console.log(json);
+      
         if (json.success) {
             addAlert({
                 type: 'success',
@@ -57,7 +58,6 @@ export default function UpdatePassword() {
     }
 
     const onChange = (e) => {
-        // console.log("onchange", password);
         setupdatePassword({ ...updatePassword, [e.target.name]: e.target.value })
     }
 

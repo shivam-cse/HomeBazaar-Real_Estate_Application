@@ -4,16 +4,17 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import AlertContext from '../context/AlertContext'
 
 export default function UpdateProfile() {
+    const host = "http://localhost:5000";
 
+    //useLocation for getting userDetails through link
     const location = useLocation()
-    const { userDetails } = location.state
+    const { userDetails } = location.state  //
     //it is for handle the state of updateProfile
     const [updateProfile, setupdateProfile] = useState({ name: userDetails.name });
     const context = useContext(AlertContext);
-    const { alert, addAlert } = context;
-    //to navigate 
+    const { addAlert } = context; // Destructuring alert and addAlert  from context api
+    //to navigate  page
     const navigate = useNavigate();
-    const host = "http://localhost:5000";
 
     //function to update profile
     const handleUpdateProfile = async (e) => {
@@ -30,14 +31,12 @@ export default function UpdateProfile() {
             body: JSON.stringify({ name: updateProfile.name }) // body data type must match "Content-Type" header
         });
         const json = await response.json();
-        // console.log(json);
         if (json.success) {
             addAlert({
                 type: 'success',
                 msg: 'Profile Updated Successfully'
             })
             navigate('/seller/dashboard')
-            // alert("Updated")
         }
         else {
             addAlert({
@@ -47,7 +46,6 @@ export default function UpdateProfile() {
         }
     }
     const onChange = (e) => {
-        // console.log("onchange", name);
         setupdateProfile({ ...updateProfile, [e.target.name]: e.target.value })
     }
 

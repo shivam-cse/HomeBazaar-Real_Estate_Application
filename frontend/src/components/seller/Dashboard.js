@@ -9,6 +9,7 @@ export default function Dashboard() {
 
     //useState hook to maintain the user state
     const [userDetails, setuserDetails] = useState({ name: "", email: "", id: "" })
+    //state for loading
     const [loading, setloading] = useState(true)
     //get user details
     const getUserDetails = async (e) => {
@@ -21,7 +22,6 @@ export default function Dashboard() {
             },
         });
         const json = await response.json();
-        console.log("hdschdccf ", json)
         if (json.success) {
             setuserDetails({ name: json.user.name, email: json.user.email, id: json.user._id })
         }

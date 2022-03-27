@@ -5,18 +5,21 @@ import buyImg from '../img/buy.jpg'
 import rent from '../img/rent.jpg'
 import ALert from './Alert';
 
-
-
-
+// Home Page of application
 function Home() {
 
     // using useState for using area value
     const [area, setArea] = useState("")
+
+    // setting type of searching(agent , property)
     const [type, settype] = useState("")
+
     // handle for change of city value
     const onChange = (e) => {
         setArea(e.target.value);
     }
+
+    // handle for change of type(agent , property) value
     const setSearchingType = (e) => {
         settype(e.target.value)
     }
@@ -25,13 +28,13 @@ function Home() {
         <div id="cont">
             <ALert />
             <form className="d-flex" id='searchSection'>
-            <select className="mb-2 form-select" aria-label="Default select example" onChange={setSearchingType} style={{width:"100px"}} required>
-                        <option value="">Select</option>
-                        <option value="property">Property</option>
-                        <option value="agent">Agent</option>
-                    </select>
-                <input className="form-control  mt-10 mx-4" type="search" placeholder="Enter Area For Property" id="area" name='area' onChange={onChange} value={area} aria-label="Search" />
-                <Link className="btn btn-primary mx-1" to={type === "property" ? '/apartmentResult' : '/agentResult'} state={{ area: area }} role="button" aria-disabled="true">Search</Link >
+                <select className="mb-2 form-select" aria-label="Default select example" onChange={setSearchingType} style={{ width: "100px" }} required>
+                    <option value="">Select</option>
+                    <option value="property">Property</option>
+                    <option value="agent">Agent</option>
+                </select>
+                <input className="form-control  mt-10 mx-4" type="search" placeholder="Enter Area For Property" id="area" name='area' onChange={onChange} value={area} aria-label="Search" required />
+                <Link className={`btn btn-primary mx-1 ${type === ""?"disabled":""}`} to={type === "property" ? '/apartmentResult' : '/agentResult'} state={{ area: area }} role="button" aria-disabled="true">Search</Link >
             </form>
             <div className='container'>
                 <div className="d-flex justify-content-between">

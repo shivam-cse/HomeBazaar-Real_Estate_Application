@@ -8,6 +8,7 @@ import img7 from '../img/7.jpg'
 import img8 from '../img/8.jpg'
 import img9 from '../img/9.jpg'
 
+// Used for loading Image in apartment Result
 export default [
     img1,
     img2,

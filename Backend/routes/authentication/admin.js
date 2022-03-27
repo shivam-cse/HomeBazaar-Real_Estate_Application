@@ -204,8 +204,8 @@ router.put("/updatePassword", fetchuser, async (req, res) => {
     else {
       return res.status(400).json({ success, errors: "Please enter valid  Password" });
     }
-
-    agent = await User.findByIdAndUpdate(userid, { $set: newAdminDetail }, { new: true }).select("-password");
+    // finding and updating admin corresponding to its id
+    user = await User.findByIdAndUpdate(userid, { $set: newAdminDetail }, { new: true }).select("-password");
     success = true;
     res.json({ success, message: "Your password is succesfully updated" });
 

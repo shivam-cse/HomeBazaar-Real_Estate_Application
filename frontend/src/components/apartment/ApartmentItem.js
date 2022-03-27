@@ -3,8 +3,8 @@ import images from '../images'
 import { Link } from "react-router-dom";
 function ApartmentItem(props) {
 
-    const { apartement, index } = props;
-    let no = index % 9;
+    const { apartement, index } = props;   // destructuring apartment and index from props passed from aprtmentResult
+    let no = index % 9;      // to show images between 0 to 8 
 
     return (
         <div className="card" style={{ width: "40vw", margin: "30px auto" }}>

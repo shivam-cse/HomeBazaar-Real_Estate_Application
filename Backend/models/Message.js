@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// model for storing messages of users connected
 const MessageSchema = mongoose.Schema(
   {
     message: {

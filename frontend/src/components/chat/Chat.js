@@ -1,28 +1,38 @@
 import React, { useState, useEffect, useRef } from 'react'
 import img from "../../img/whatsapp.png";
-import { useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import "./Chat.css"
-import {io} from 'socket.io-client'
+import { io } from 'socket.io-client'
 const host = "http://localhost:5000";
 
 function Chat() {
 
+    // used location for getting button(link) value(passing in state)
     const location = useLocation()
-    const { sender, receiver } = location.state;
+    const { sender, receiver } = location.state; //getting sender and receiver from button(link)
+    // setting some variable
     let senderId = sender.id, receiverId = receiver.id, receiverName = receiver.name, receiverType = receiver.type, senderType = sender.type, senderName = sender.name;
 
+    // current message in inbut box
     const [currmessage, setcurrmessage] = useState("");
+    // message getting from another user(using socket)
     const [arrivalMessage, setarrivalMessage] = useState(null);
+    // previous message conversation of user
     const [message, setmessage] = useState([])
-    const socket = useRef()
 
+    const socket = useRef()
+    // ref for scrolling down(scroller) , when new message is come
+    const scrollRef = useRef();
+
+    // handle when user type on input box
     const onChange = (e) => {
         setcurrmessage(e.target.value)
     }
 
+    //function for  getting all previous conversation of user
     const getMessage = async () => {
-        console.log("Inside sender" , senderId)
-        console.log("Inside receiver" , receiverId)
+
+        // calling the api to get a previous conversation of user
         let response = await fetch(`${host}/api/messages/get`, {
             method: 'POST',
             headers: {
@@ -31,59 +41,73 @@ function Chat() {
             body: JSON.stringify({ from: senderId, to: receiverId })
 
         });
+
+        // getting responce of api in json
         const json = await response.json();
-        console.log("after getting all message ", json)
+
+        // if we succesfully get a message
         if (json.success) {
+            // store the conversation in array
             let array = json.projectedMessages;
+
             let newMsg = [];
 
             for (let index = 0; index < array.length; index++) {
                 const element = array[index];
                 newMsg.push({ fromSelf: element.fromSelf, message: element.message, index: index });
             }
+            // setting the message 
             setmessage(newMsg);
         }
-
+        else {
+            alert("internal server error")
+        }
     }
 
+    // getting the previous conversation when user enter in chat page
     useEffect(async () => {
-        console.log({"sender is : " :sender})
-        console.log("receiver is : ", receiver)
+        // calling getMessage
         await getMessage();
-        console.log("all message : ", message)
     }, [])
 
     useEffect(() => {
+        //socket connection 
         socket.current = io('ws://localhost:4000')
+        //getting message from receiver
         socket.current.on("getMessage", data => {
-            console.log("get Message shivam ", data)
-            let newMsg = {message:data.message, fromSelf:false}
+            let newMsg = { message: data.message, fromSelf: false }
             setarrivalMessage(newMsg);
         })
     }, [])
 
+    //adding message in current conversation
     useEffect(() => {
         try {
-            if(arrivalMessage !== null)
-            {
-                console.log("arrival msg change ", arrivalMessage)
+            if (arrivalMessage !== null) {
                 setmessage((prev) => [...prev, arrivalMessage])
             }
         } catch (error) {
             console.log("error ", error)
         }
     }, [arrivalMessage])
-    
 
+  //adding users when they come  to chat page
     useEffect(() => {
-      socket.current.emit("addUser", senderId)
-      socket.current.on("getUsers", (users) => {
-          console.log("this is id : ", users);
-      })
+        socket.current.emit("addUser", senderId)
+        socket.current.on("getUsers", (users) => {
+            
+        })
     }, [sender])
-    
+
+    // scroll effect
+    useEffect(() => {
+        scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [message]);
+
+    // function for checking whether sender and receiver are connected or not
     const checkUserConnected = async () => {
 
+        // api for getting all the connection of sender
         const response = await fetch(`${host}/api/messages/getReceiver`, {
             method: 'POST',
             headers: {
@@ -92,44 +116,56 @@ function Chat() {
             body: JSON.stringify({ from: senderId })
 
         });
-        
+
+        // stroing the responce in json
         const json = await response.json();
-        console.log({ "checkConected ": json })
 
         if (json.success) {
 
+            // variable for checking receiver is exit on sender connection or not
             let foundReceiver = false;
 
+            // connection of sender
             let array_receiver = json.receivers;
 
             for (let index = 0; index < array_receiver.length; index++) {
 
+                // single connection
                 const element = array_receiver[index];
+
+                // if current sender is sender than current receiver may be receiver
                 if (senderId === element.sender) {
 
+                    // if curent receiver is receiver then break th loop as  current receiver is connected
                     if (receiverId === element.receiver) {
                         foundReceiver = true;
-                        console.log("receieve found")
+
                         break;
                     }
 
                 }
+
+                // if current sender is not sender than it is sender
                 else {
+                    // if curent receiver is sender then break th loop as  current receiver is connected
                     if (receiverId === element.sender) {
                         foundReceiver = true;
-                        console.log("receieve found")
                         break;
                     }
                 }
             }
             return foundReceiver;
         }
+        else {
+            alert("Internal server error")
+        }
 
     }
 
+    // function for connecting the receiver and sender
     const addReceiver = async () => {
-        console.log("inside add receiver");
 
+        // api for connecting the receiver and sender
         const response = await fetch(`${host}/api/messages/addReceiver`, {
             method: 'POST',
             headers: {
@@ -140,27 +176,30 @@ function Chat() {
         });
 
         const json = await response.json();
-        console.log({ "addReceiver": json });
     }
 
+    // function when sender send the message
     const handleSubmit = async (e) => {
 
+        // stop reloding of page
         e.preventDefault();
 
+        // check if receiver and sender is connected or not
         let receiverCheck = await checkUserConnected();
 
-        console.log({ "receiverChecker ": receiverCheck });
+        // if receiver and sender is not connected
         if (!receiverCheck) {
+            // connect receiver and sender
             await addReceiver();
-            console.log("after add receiver")
         }
-
+        //sending message to receiver through socket
         socket.current.emit("sendMessage", {
             senderId,
             receiverId,
-            message:currmessage
+            message: currmessage
         })
 
+        // api for adding the message in backend
         const response = await fetch(`${host}/api/messages/add`, {
             method: 'POST',
             headers: {
@@ -168,27 +207,32 @@ function Chat() {
             },
             body: JSON.stringify({ from: senderId, to: receiverId, message: currmessage })
         });
+
         let json = await response.json();
+        // if we succesully add the message
         if (json.success) {
+            // getting the message in newArray
             let newArray = message;
+            // pushing the new  message 
             newArray.push({ fromSelf: true, message: currmessage, index: message.length });
+
             setmessage(newArray);
-            setcurrmessage("")
+            setcurrmessage("")//empty input box
         }
         else {
-            return;
+            alert("Internal server error")
         }
 
     }
     return (
         <div className='mainDiv'> <nav>
             <img className="LOGO" src={img} alt="" />
-            <h1 className='H1'>Welcome to iChart WebApp</h1>
+            <h1 className='H1'>Welcome to HomeBazzar Chart</h1>
         </nav>
-            <div className="Container">
+            <div className="Container" >
                 {message.map((msg) => {
                     return (
-                        <div key={msg.index} className={`message ${msg.fromSelf === true ? "left" : "right"}`}>{!msg.fromSelf ? receiverType : "you"} : {msg.message}</div>
+                        <div key={msg.index} className={`message ${msg.fromSelf === true ? "right" : "left"}`} ref={scrollRef}>{!msg.fromSelf ? receiverType : "you"} : {msg.message} </div>
                     )
                 })}
             </div>

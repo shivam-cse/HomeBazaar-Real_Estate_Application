@@ -36,8 +36,8 @@ export default function UpdatePassword() {
             body: JSON.stringify({ oldPassword: updatePassword.oldPassword, newPassword: updatePassword.newPassword }) // body data type must match "Content-Type" header
         });
 
-        const json = await response.json();
-        console.log(json);
+        const json = await response.json();     // receiving response from server
+ 
         if (json.success) {
             addAlert({
                 type: 'success',
@@ -54,8 +54,8 @@ export default function UpdatePassword() {
         }
     }
     const onChange = (e) => {
-        // console.log("onchange", password);
-        setupdatePassword({ ...updatePassword, [e.target.name]: e.target.value })
+ 
+        setupdatePassword({ ...updatePassword, [e.target.name]: e.target.value })  //setting state of updatePassword
     }
 
     return (

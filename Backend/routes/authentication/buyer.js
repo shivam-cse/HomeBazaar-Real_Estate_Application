@@ -248,7 +248,7 @@ router.delete("/delete/:id", fetchuser,
 router.get('/alluser', async (req, res) => {
 
     try {
-        // find the all apartment of particular seller from database
+        // find  all buyers 
         const users = await User.find();
         //sent the response to client
         res.json(users)

@@ -2,6 +2,7 @@ import React from 'react'
 import logo from '../img/logo.jpg'
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
+// Navbar of Application
 function Navbar() {
 
     // use for navigating one page to another
@@ -10,7 +11,7 @@ function Navbar() {
     // This hook returns the location object used by the react-router
     let location = useLocation();
 
-    // function for headle logout
+    // function for handle logout(logout button)
     const handleOnclick = () => {
         // remove authtoken from local storage and redirect it
         localStorage.removeItem('token');
@@ -18,13 +19,19 @@ function Navbar() {
         navigate("/");
     }
 
+    //  function for navigating user to dashboard (user button)
     const handleOnclickUser = () => {
+
+        // getting userType from local storage
         let user = localStorage.getItem('userType');
         let url = `/${user}/dashboard`;
+        // navigating to dashboard
         navigate(url)
     }
 
+    // handling complaint button
     const handleComplaintOnclick = () => {
+        // navigating to complaint
         navigate('/complaint')
     }
     return (
@@ -45,11 +52,6 @@ function Navbar() {
                         <li className="nav-item">
                             <Link className={`nav-link ${location.pathname === '/about' ? 'active' : ""}`} aria-current="page" to="/about">
                                 About
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className={`nav-link ${location.pathname === '/contactUs' ? 'active' : ""}`} aria-current="page" to="/contactUs">
-                                Contact Us
                             </Link>
                         </li>
                     </ul>

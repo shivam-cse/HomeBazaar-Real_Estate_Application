@@ -5,12 +5,16 @@ import { NavLink } from 'react-router-dom';
 import Receiver from '../chat/Receiver';
 
 export default function Dashboard() {
-    const host = "http://localhost:5000";
+    const host = "http://localhost:5000";      //HOST 
+
     //useState hook to maintain the user state
     const [userDetails, setuserDetails] = useState({ name: "", email: "", id: "" })
-    const [loading, setloading] = useState(true)
-    // /This is function to fect user details
+
+    const [loading, setloading] = useState(true)    // useState hook for loading state
+
+    // /This is function to fetch user details
     const getUserDetails = async (e) => {
+
         //API call to fetch user data
         const response = await fetch(`${host}/api/auth/buyer/getUser`, {
             method: 'GET',
@@ -27,50 +31,51 @@ export default function Dashboard() {
         else {
             alert("Your credentails is not valid. please try to login again!")
         }
-        setloading(false);
+        setloading(false);   // setting setState of loading to false
 
     }
     // /Runs only on the first render page to get user data
     useEffect(() => {
-        getUserDetails();
+        getUserDetails();   // calling getUserDetails() function 
 
     }, [])
 
-    function capitalize(name) {
+    function capitalize(name)    // function to capitalize name of buyer
+    {
         return name.replace(/\b(\w)/g, s => s.toUpperCase());
     }
     return (
         <>
-         {!loading? <div>
-            <Alert />
-            <div className='dashboard-top bg-primary text-white'>Dashboard </div>
-            <NavLink to="/buyer/chat" className="chat"><i className="chat-icon fab fa-rocketchat" ></i></NavLink>
-            <div className='dashboard'>
-                <div className="row">
-                    <div className="col-sm-5">
-                        <div className='profile'>
-                            <div className='profile-data'><span>Name: </span>{capitalize(userDetails.name.toLowerCase())}</div>
-                            <div className='profile-data'><span>Email Id: </span>{userDetails.email.toLowerCase()}</div>
-                        </div>
-                        <div className="update">
-                            <div >
-                                <NavLink to="/buyer/update-profile" state={{ userDetails }} className="" ><button type="button" className="btn btn-outline-primary update-btn">Update Profile</button></NavLink>
+            {!loading ? <div>
+                <Alert />
+                <div className='dashboard-top bg-primary text-white'>Dashboard </div>
+                <NavLink to="/buyer/chat" className="chat"><i className="chat-icon fab fa-rocketchat" ></i></NavLink>
+                <div className='dashboard'>
+                    <div className="row">
+                        <div className="col-sm-5">
+                            <div className='profile'>
+                                <div className='profile-data'><span>Name: </span>{capitalize(userDetails.name.toLowerCase())}</div>
+                                <div className='profile-data'><span>Email Id: </span>{userDetails.email.toLowerCase()}</div>
                             </div>
-                            <div >
-                                <NavLink to="/buyer/update-password" className="" ><button type="button" className="btn btn-outline-primary update-btn">Update Password</button></NavLink>
-                            </div>
+                            <div className="update">
+                                <div >
+                                    <NavLink to="/buyer/update-profile" state={{ userDetails }} className="" ><button type="button" className="btn btn-outline-primary update-btn">Update Profile</button></NavLink>
+                                </div>
+                                <div >
+                                    <NavLink to="/buyer/update-password" className="" ><button type="button" className="btn btn-outline-primary update-btn">Update Password</button></NavLink>
+                                </div>
 
+                            </div>
                         </div>
-                    </div>
-                    <div className="col-sm-7">
-                        <h2 style={{ margin: "auto" }}>Your chat history</h2>
-                        <div className='chat-section' >
-                            <Receiver id={userDetails.id} />
+                        <div className="col-sm-7">
+                            <h2 style={{ margin: "auto" }}>Your chat history</h2>
+                            <div className='chat-section' >
+                                <Receiver id={userDetails.id} />
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>:<div></div>}
+            </div> : <div></div>}
         </>
 
     )

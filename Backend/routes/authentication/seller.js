@@ -133,20 +133,20 @@ router.get('/getUser', fetchUser, async (req, res) => {
   try {
     //get the user id 
     const userId = req.user.id;
-    
+
     //finding user with auth token (user id)
     const temp = await User.findById(userId)
-    
+
     if (temp === null) {
       return res.status(404).json({ success, error: "wrong credentials" });
     }
-    
+
     //get all the details about the user except password
     const user = await User.findById(userId).select("-password");
-    
+
     success = true;
     res.json({ success, user });
-    
+
 
   } catch (error) {
     console.log(error.message)
@@ -278,7 +278,7 @@ router.delete('/delete/:id', fetchUser, async (req, res) => {
 router.get('/alluser', async (req, res) => {
 
   try {
-    // find the all apartment of particular seller from database
+    // find the all sellers
     const users = await User.find();
     //sent the response to client
     res.json(users)
@@ -290,10 +290,10 @@ router.get('/alluser', async (req, res) => {
 })
 
 
-//Router 8 : get user bu Id  using GET : api/auth/seller/:id - Login required
+//Router 8 : get seller details using GET : api/auth/seller/:id - Login required
 router.get("/getseller/:id",
   async (req, res) => {
-    
+
     try {
 
       let SellerToBeFound = req.params.id;
@@ -301,17 +301,16 @@ router.get("/getseller/:id",
       if (temp == null) {
         res.status(404).json({ success: false, error: "Seller does not exists" });
       }
-  else {
+      else {
         resultOffindSeller = await User.findById(SellerToBeFound)
-        console.log('found seller details : ', resultOffindSeller)
-        res.status(200).json({ success: true, user : resultOffindSeller });
+        res.status(200).json({ success: true, user: resultOffindSeller });
 
       }
 
     }
     catch (error) {
       console.error(error.message);
-      return res.status(500).json({success:false, error: "Internal SERVER error !!!!"});
+      return res.status(500).json({ success: false, error: "Internal SERVER error !!!!" });
     }
   }
 );

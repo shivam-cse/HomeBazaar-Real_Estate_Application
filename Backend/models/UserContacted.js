@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// Schema for connecting two people (used for chat history)
 const UserConactedSchema = mongoose.Schema(
   {
     sender: {
@@ -7,26 +8,26 @@ const UserConactedSchema = mongoose.Schema(
       required: true,
     },
     receiver: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
     },
 
     users: Array,
-    receiverName:{
-        type: String,
-        required: true 
+    receiverName: {
+      type: String,
+      required: true
     },
-    receiverType:{
-        type: String,
-        required: true 
+    receiverType: {
+      type: String,
+      required: true
     },
-    senderName:{
-        type: String,
-        required: true 
+    senderName: {
+      type: String,
+      required: true
     },
-    senderType:{
-        type: String,
-        required: true 
+    senderType: {
+      type: String,
+      required: true
     },
   },
   {
