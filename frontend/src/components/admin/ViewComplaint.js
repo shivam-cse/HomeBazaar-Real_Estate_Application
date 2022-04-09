@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import ComplaintItem from './ComplaintItem';
+import "../css/BackGround.css"
 import Spinner from '../Spinner'
 const host = 'http://localhost:5000';
 
@@ -29,15 +30,17 @@ function ViewComplaint() {
     }, [])
 
     return (
-        <div className='container'>
+        <div className='backGround2'>
+        <div className='container '>
             {lodding && <Spinner />}
-            {!lodding && complaints.length == 0 ? <h2 style={{ marginTop: '20px', marginLeft: '10vw' }}>No Complaints</h2> : <div><h2 style={{ margin: '20px 34vw' }}>Complaints</h2>
+            {!lodding && complaints.length == 0 ? <h2 style={{  marginLeft: '10vw' }}>No Complaints</h2> : <div><h2 style={{ margin: '0px 34vw' }}>Complaints</h2>
                 <div className="d-flex flex-column">
                     {complaints.map((complaint ,index) => {
                         return <ComplaintItem key={complaint._id} complaint={complaint} index={index} />
                     })}
                 </div>
             </div>}
+        </div>
         </div>
     )
 }

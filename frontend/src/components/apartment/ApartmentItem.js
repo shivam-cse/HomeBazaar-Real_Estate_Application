@@ -10,11 +10,11 @@ function ApartmentItem(props) {
         <div className="card" style={{ width: "40vw", margin: "30px auto" }}>
             <img src={images[no]} className="card-img-top " style={{ maxHeight: '200px' }} alt="..." />
             <div className="card-body row">
-                <h6 className="col-md-4  my-2 ">Price - {apartement.price}</h6>
-                <h6 className="col-md-4  my-2 ">Area - {apartement.area}</h6>
-                <h6 className="col-md-4  my-2 ">Size - {apartement.size}</h6>
-                <h6 className="col-md-4  my-2 ">No. of bedrooms - {apartement.bedrooms}</h6>
-                <h6 className="col-md-4  my-2 ">Type - {apartement.type}</h6>
+                <h6 className="col-md-4  my-2 "><span style={{color:'purple'}}>Price</span> - {apartement.price}</h6>
+                <h6 className="col-md-4  my-2 "> <span style={{color:'purple'}}>Area</span> - {apartement.area}</h6>
+                <h6 className="col-md-4  my-2 "><span style={{color:'purple'}}> Size</span> - {apartement.size}</h6>
+                <h6 className="col-md-4  my-2 "><span style={{color:'purple'}}>No. of bedrooms</span> - {apartement.bedrooms}</h6>
+                <h6 className="col-md-4  my-2 "><span style={{color:'purple'}}>Type</span>Type - {apartement.type}</h6>
                 <Link className="btn btn-primary col-md-4  my-2" to={'/property'} state={{ apartement: apartement, index: no }} role="button" aria-disabled="true">View Detail</Link >
             </div>
         </div>

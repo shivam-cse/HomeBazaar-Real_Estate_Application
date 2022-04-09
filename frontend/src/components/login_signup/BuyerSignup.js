@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 import '../css/UpdateProfile.css'
 import Alert from '../Alert'
+import "../css/BackGround.css"
 import AlertContext from '../context/AlertContext'
 
 //Buyer Signup 
@@ -57,25 +58,27 @@ const SignUp = (props) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value })   // setting state of credentials of buyer
     }
     return (
-        <div><Alert />
-            <div className='update-container'>
+        <div className='backGround'>
+            <Alert />
+            <div className='update-container' style={{ width: '40%' }}>
+                <h3 style={{ marginLeft: '30%', margintBottom: "50px" }}>SignUp Form</h3>
                 <form onSubmit={handleSubmit}>
-                    <div className="mb-3">
+                    <div className="mb-3" style={{ marginBottom: '30px' }}>
                         <label htmlFor="name" className="form-label">Name</label>
                         <input type="text" className="form-control" onChange={onChange} aria-describedby="emailHelp"
                             id="name" name="name" />
                     </div>
-                    <div className="mb-3">
+                    <div className="mb-3" style={{ marginBottom: '30px' }}>
                         <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
                         <input type="email" className="form-control" onChange={onChange} aria-describedby="emailHelp"
                             id="email" name="email" />
                     </div>
-                    <div className="mb-3">
+                    <div className="mb-3" style={{ marginBottom: '30px' }}>
                         <label htmlFor="password" className="form-label">Password</label>
                         <input type="password" className="form-control" onChange={onChange}
                             id="password" name="password" minLength={5} required />
                     </div>
-                    <button type="submit" className="btn btn-primary">Submit</button>
+                    <button type="submit" className="btn btn-primary" style={{ marginTop: '20px', marginLeft: '40%' }}>Submit</button>
                 </form>
             </div>
         </div>

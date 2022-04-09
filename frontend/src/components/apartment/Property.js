@@ -69,14 +69,14 @@ function Property(props) {
             </div>
             <div className="row" style={{ marginTop: '50px', marginBottom: '20px', backgroundColor: 'whitesmoke' }} id="detail">
                 <div className="col" id="overview" style={{ marginLeft: '15vw' }}>
-                    <div className="card" style={{ width: '30vw', backgroundColor: 'whitesmoke' }}>
-                        <div className="card-body">
-                            <h3 className="card-title">Price - {apartement.price}</h3>
-                            <h3 className="card-title">Area - {apartement.area}</h3>
-                            <h3 className="card-title">Size - {apartement.size}</h3>
-                            <h3 className="card-title">Number of bedrooms - {apartement.bedrooms}</h3>
-                            <h3 className="card-title">Type - {apartement.type}</h3>
-                            <h3 className="card-title">Address - {apartement.address}</h3>
+                    <div className="card" style={{ width: '60vw', backgroundColor: 'whitesmoke' }}>
+                        <div className="card-body row">
+                            <h3 className="card-title col-md-6 my-10"><span style={{color:'purple'}}>Price</span> -₹{apartement.price}</h3>
+                            <h3 className="card-title col-md-6 my-10"> <span style={{color:'purple'}}>Area</span> - {apartement.area}</h3>
+                            <h3 className="card-title col-md-6 my-10"><span style={{color:'purple'}}>Size</span> - {apartement.size} sqft</h3>
+                            <h3 className="card-title col-md-6 my-10"> <span style={{color:'purple'}}>Number of bedrooms</span> - {apartement.bedrooms}</h3>
+                            <h3 className="card-title col-md-12 my-10"><span style={{color:'purple'}}>Type</span> - {apartement.type}</h3>
+                            <h3 className="card-title col-md my-10"><span style={{color:'purple'}}>Address</span> - {apartement.address}</h3>
                         </div>
                     </div>
                 </div>

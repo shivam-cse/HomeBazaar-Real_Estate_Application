@@ -1,0 +1,15 @@
+.backGround{
+    background: -webkit-linear-gradient(left, #003366,#004080,#0059b3
+    , #0073e6);
+    min-height: 100vh;
+    height: 100%;
+    width : 100vw;
+}
+
+.backGround2{
+    background: radial-gradient(#76b2fe, #b69efe);
+    min-height: 100vh;
+    height: 100%;
+    width : 100vw;
+}
+

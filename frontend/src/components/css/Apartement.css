@@ -1,0 +1,9 @@
+
+
+.ApartementBackground{
+    background: -webkit-linear-gradient(left, #3b4465,#384882,#8092d1
+    , #3b4465);
+    min-height: 100vh;
+    height: 100%;
+    width : 100vw;
+}

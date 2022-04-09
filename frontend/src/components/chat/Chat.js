@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import img from "../../img/whatsapp.png";
 import { useLocation } from "react-router-dom";
+import chatIcon from './yellow.jpg'
 import "./Chat.css"
 import { io } from 'socket.io-client'
 const host = "http://localhost:5000";
@@ -91,11 +92,11 @@ function Chat() {
         }
     }, [arrivalMessage])
 
-  //adding users when they come  to chat page
+    //adding users when they come  to chat page
     useEffect(() => {
         socket.current.emit("addUser", senderId)
         socket.current.on("getUsers", (users) => {
-            
+
         })
     }, [sender])
 
@@ -226,8 +227,10 @@ function Chat() {
     }
     return (
         <div className='mainDiv'> <nav>
-            <img className="LOGO" src={img} alt="" />
-            <h1 className='H1'>Welcome to HomeBazzar Chart</h1>
+           
+            <h1 className='H1'>Welcome to HomeBazzar Chat <span>
+                <img className="LOGO" src={chatIcon} alt="" />
+            </span></h1>
         </nav>
             <div className="Container" >
                 {message.map((msg) => {

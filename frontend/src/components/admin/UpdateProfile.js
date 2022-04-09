@@ -1,6 +1,9 @@
 import React, { useState, useContext } from 'react';
 import '../css/Dashboard.css'
 import { useNavigate, useLocation } from 'react-router-dom';
+import "../css/BackGround.css"
+import ALert from '../Alert'
+
 import AlertContext from '../context/AlertContext'
 
 export default function UpdateProfile() {
@@ -55,7 +58,8 @@ export default function UpdateProfile() {
     }
 
     return (
-        <>
+        <div className='backGround'>
+            <ALert />
             <form onSubmit={handleUpdateProfile}>
                 <div className='update-container'>
                     <div className='update-top bg-primary text-white'>Update Your Details </div>
@@ -63,9 +67,9 @@ export default function UpdateProfile() {
                         <label htmlFor="name" className="form-label">Enter Name</label>
                         <input type="text" className="form-control" id="name" name='name' value={updateProfile.name} onChange={onChange} placeholder="Shivam sahu" required minLength={3} />
                     </div>
-                    <button type="submit" className="btn btn-success" >Update</button>
+                    <button type="submit" className="btn btn-success" style={{ marginTop: '20px', marginLeft: '40%' }} >Update</button>
                 </div>
             </form>
-        </>
+        </div>
     )
 }

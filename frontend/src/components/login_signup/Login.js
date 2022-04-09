@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../css/UpdateProfile.css'
 import AlertContext from '../context/AlertContext'
+import "../css/BackGround.css"
 import ALert from '../Alert'
 const Login = () => {
 
@@ -16,7 +17,7 @@ const Login = () => {
     //Function to handle form on submit
     const handleSubmit = async (e) => {
         e.preventDefault(); // stops page reloading
-        
+
         //API call to login seller/buyer/agent/admin as per given credentials
         const response = await fetch(
             `http://localhost:5000/api/auth/${userType}/login`,
@@ -56,18 +57,18 @@ const Login = () => {
     }
 
     return (
-        <div>
+        <div className='backGround'>
             <ALert />
 
-            <div className='update-container'>
+            <div className='update-container' style={{ width: '40%' }}>
+                <h3 style={{ marginLeft: '30%', margintBottom: "50px" }}>Login Form</h3>
                 <form onSubmit={handleSubmit}>
-                    <div className="mb-3">
+                    <div className="mb-3" style={{ marginBottom: '30px' }}>
                         <label htmlFor="email" className="form-label">Email address</label>
                         <input type="email" className="form-control" id="email" value={credentials.email} name="email" aria-describedby="emailHelp"
                             onChange={onChange} />
-                        <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
                     </div>
-                    <div className="mb-3">
+                    <div className="mb-3" style={{ marginBottom: '30px' }}>
                         <label htmlFor="password" className="form-label">Password</label>
                         <input type="password" id="password" value={credentials.password} name="password" className="form-control"
                             onChange={onChange} />
@@ -80,7 +81,7 @@ const Login = () => {
                         <option value="agent">Agent</option>
                     </select>
 
-                    <button type="submit" className="btn btn-primary" >Submit</button>
+                    <button type="submit" className="btn btn-primary" style={{ marginTop: '20px', marginLeft: '40%' }}>Submit</button>
                 </form>
 
             </div>

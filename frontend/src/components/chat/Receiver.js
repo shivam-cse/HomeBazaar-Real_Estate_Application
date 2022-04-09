@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import ReceiverItem from './ReceiverItem';
 const host = "http://localhost:5000";
-
 export default function Receiver(props) {
     //getting sender id from props
-    const {id} = props
+    const { id } = props
     //state for all receiver details
     const [receiver, setreceiver] = useState([])
     //state for loading
@@ -31,7 +30,7 @@ export default function Receiver(props) {
             let new_receiver = []
 
             // object for getting sender detail
-            let newSender ={};
+            let newSender = {};
 
             for (let index = 0; index < array_receiver.length; index++) {
 
@@ -52,7 +51,7 @@ export default function Receiver(props) {
             setsender(newSender) // setting the sender
             setreceiver(new_receiver); //settng the receiver
         }
-        else{
+        else {
             alert("Internal server error");
         }
         setloading(false)

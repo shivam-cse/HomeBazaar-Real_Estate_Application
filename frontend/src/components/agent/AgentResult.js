@@ -65,9 +65,9 @@ function AgentResult() {
     }, [])
 
     return (
-        <div className='container'>
+        <div className='ApartementBackground'>
             {loading && <Spinner />}
-            {!loading && agents.length == 0 ? <h2 style={{ marginTop: '20px', marginLeft: '10vw' }}>Currently No Agent is found in {area}</h2> : <div><h2 style={{ margin: '20px 34vw' }}>Agents in {area}</h2>
+            {!loading && agents.length == 0 ? <h2 style={{marginLeft: '10vw' }}>Currently No Agent is found in {area}</h2> : <div><h2 style={{ margin: '0px 34vw', padding:'10px'}}>Agents in {area}</h2>
                 <div className="d-flex flex-column">
                     {agents.map((agent) => {
                         let receiver = { id: agent._id, name: agent.name, type: "agent" }

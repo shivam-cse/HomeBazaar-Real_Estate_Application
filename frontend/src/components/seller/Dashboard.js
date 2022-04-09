@@ -42,34 +42,35 @@ export default function Dashboard() {
     }
 
     return (
-        <div style={{overflowY:"hidden", height:"100vh"}}>
-            {!loading ?<div><Alert />
+        <div style={{overflowY:"hidden", height:"100vh"}} id='background-image'>
+            {!loading ?<div>
             <div className='dashboard-top bg-primary text-white'>Dashboard </div>
+            <Alert />
             <div className='dashboard'>
                 <div className="row">
-                    <div className="col-sm-5">
+                    <div className="col ">
                         <div className='profile'>
                             <div className='profile-data'><span>Name: </span>{capitalize(userDetails.name.toLowerCase())}</div>
                             <div className='profile-data'><span>Email Id: </span>{userDetails.email.toLowerCase()}</div>
                         </div>
                         <div className="update">
                             <div >
-                                <NavLink to="/seller/update-profile" state={{ userDetails }} ><button type="button" className="btn btn-outline-primary update-btn">Update Profile</button></NavLink>
+                                <NavLink to="/seller/update-profile" state={{ userDetails }} ><button type="button" className="btn btn-primary update-btn">Update Profile</button></NavLink>
                             </div>
                             <div >
-                                <NavLink to="/seller/update-password" ><button type="button" className="btn btn-outline-primary update-btn">Update Password</button></NavLink>
+                                <NavLink to="/seller/update-password" ><button type="button" className="btn btn-primary update-btn">Update Password</button></NavLink>
                             </div>
                             <div >
-                                <NavLink to="/seller/apartment-view" ><button type="button" className="btn btn-outline-primary update-btn">View Property</button></NavLink>
+                                <NavLink to="/seller/apartment-view" ><button type="button" className="btn btn-primary update-btn">View Property</button></NavLink>
                             </div>
                             <div >
-                                <NavLink to="/seller/add-apartment" ><button type="button" className="btn btn-outline-primary update-btn">Add Property</button></NavLink>
+                                <NavLink to="/seller/add-apartment" ><button type="button" className="btn btn-primary update-btn">Add Property</button></NavLink>
                             </div>
 
                         </div>
                     </div>
-                    <div className="col-sm-7">
-                        <h2 style={{margin : "auto"}}>Your chat history</h2>
+                    <div className="col" id='chat-left'>
+                       <h2 style={{textAlign:'center', color:'white', background:'rgb(180 22 183 / 47%)'}}>Your chat history</h2>
                        <div className='chat-section' >
                        <Receiver id={userDetails.id} />
                        </div>

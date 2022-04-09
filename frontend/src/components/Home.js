@@ -21,43 +21,59 @@ function Home() {
 
     // handle for change of type(agent , property) value
     const setSearchingType = (e) => {
+        console.log("e.target.value is ", e.target.value)
+        console.log("type is now set as : ", type)
         settype(e.target.value)
     }
 
     return (
         <div id="cont">
             <ALert />
-            <form className="d-flex" id='searchSection'>
-                <select className="mb-2 form-select" aria-label="Default select example" onChange={setSearchingType} style={{ width: "100px" }} required>
+            <form className="d-flex responsive-home" id='searchSection'>
+                {/* <select className="mb-2 form-select" aria-label="Default select example" onChange={setSearchingType} style={{ width: "100px" }} required>
                     <option value="">Select</option>
                     <option value="property">Property</option>
                     <option value="agent">Agent</option>
-                </select>
-                <input className="form-control  mt-10 mx-4" type="search" placeholder="Enter Area For Property" id="area" name='area' onChange={onChange} value={area} aria-label="Search" required />
-                <Link className={`btn btn-primary mx-1 ${type === ""?"disabled":""}`} to={type === "property" ? '/apartmentResult' : '/agentResult'} state={{ area: area }} role="button" aria-disabled="true">Search</Link >
+                </select> */}
+                <div style={{ width: "100px" }} >
+                    <div class="form-check" onClick={setSearchingType} >
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="agent" />
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            <b> Agent</b>
+                        </label>
+                    </div>
+                    <div class="form-check" onClick={setSearchingType} >
+                        <input class="form-check-input " type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="property" />
+                        <label class="form-check-label" for="flexRadioDefault2" >
+                            <b> Property </b>
+                        </label>
+                    </div>
+                </div>
+                <input className="form-control  mt-10 rounded-pill" type="search" placeholder="Enter Area/Agent For Property" id="area" name='area' onChange={onChange} value={area} aria-label="Search" required />
+                <Link className={`btn btn-primary mx-1 border-search ${type === "" ? "disabled" : ""}`} to={type === "property" ? '/apartmentResult' : '/agentResult'} state={{ area: area }} role="button" aria-disabled="true">Search</Link >
             </form>
             <div className='container'>
-                <div className="d-flex justify-content-between">
-                    <div className="card" style={{ width: "18rem", backgroundColor: 'whitesmoke' }}>
+                <div className="d-flex justify-content-between responsive-cards">
+                    <div className="card custom-card" style={{ width: "18rem", borderRadius: "0.65rem", backgroundColor: 'whitesmoke' }}>
                         <img src={buyImg} id="sloganCardImg" />
                         <h6 className="card-title" style={{ margin: '2px auto', color: 'rgb(65, 65, 199)' }}>Buying a Property</h6>
                         <p className="card-text" style={{ margin: '20px auto', color: 'rgba(53, 51, 51, 0.712)' }}>Explore Property at your fingertips</p>
                     </div>
 
-                    <div className="card" style={{ width: "18rem", backgroundColor: 'whitesmoke' }}>
+                    <div className="card custom-card" style={{ width: "18rem", borderRadius: "0.65rem", backgroundColor: 'whitesmoke' }}>
                         <img src={rent} id="sloganCardImg" />
                         <h6 className="card-title" style={{ margin: '2px auto', color: 'rgb(65, 65, 199)' }}>Renting a Property</h6>
                         <p className="card-text" style={{ margin: '20px auto', color: 'rgba(53, 51, 51, 0.712)' }}>Benefits that fit right be it any site</p>
                     </div>
 
-                    <div className="card" style={{ width: "18rem", backgroundColor: 'whitesmoke' }}>
+                    <div className="card custom-card" style={{ width: "18rem", borderRadius: "0.65rem", backgroundColor: 'whitesmoke' }}>
                         <img src={buyImg} id="sloganCardImg" />
                         <h6 className="card-title" style={{ margin: '2px auto', color: 'rgb(65, 65, 199)' }}>Sell/Rent a Property</h6>
                         <p className="card-text" style={{ margin: '20px auto', color: 'rgba(53, 51, 51, 0.712)' }}>Explore the exceptional services</p>
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
