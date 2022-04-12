@@ -1,0 +1,51 @@
+body{
+    font-family: 'Roboto', sans-serif;
+}
+
+
+.border-search {
+    border-radius: 20px;
+    height: inherit
+}
+.backgroundChat{
+    background: radial-gradient(#1fe4f5, #0a5d8b);
+    
+    /* padding: 20px; */
+    /* width: 500px; */
+    min-height: 200px;
+    /* display: grid; */
+    /* grid-template-rows: 20px 50px 1fr 50px; */
+    border-radius: 10px;
+    box-shadow: 0px 6px 10px rgb(0 0 0 / 25%);
+    transition: all 0.2s;
+    font-weight: bold;
+}
+.backgroundChat:hover {
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.4);
+    transform: scale(1.01);
+  }
+.lets-chat-btn{
+    height: 40px;
+}
+
+.navbarLink:hover{
+    color : rgba(0, 0, 0, 0.9)
+}
+
+ .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    background-color: #8b8ab2;
+    border-radius: 40px;
+}
+
+@media (max-width: 1000px) { 
+    .responsive-home{
+        flex-direction: column;
+    }
+    .responsive-cards{
+        flex-direction: column;
+        align-items: center;
+    }
+    .custom-card{
+        margin : 15px;
+    }
+    }
