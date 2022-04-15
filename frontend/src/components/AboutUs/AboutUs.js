@@ -27,7 +27,7 @@ const AboutUs = () => {
                             <div class="team-content">
                                 <h2 className='heading2'>SHIVAM SAHU</h2>
                                 <h3 className='heading3'>FrontEND and BackEND DEV</h3>
-                                <p>Shivam Sahu special skills !</p>
+
                                 <h4>Shivam.sahu@iiitg.ac.in</h4>
                             </div>
                             <div class="team-social">
@@ -46,7 +46,6 @@ const AboutUs = () => {
                             <div class="team-content">
                                 <h2 className='heading2'>MRITUNJAY KUMAR</h2>
                                 <h3 className='heading3'>FrontEND and BackEND DEV</h3>
-                                <p>Mritunjay Kumar special skills</p>
                                 <h4>Mritunjay.kumar@iiitg.ac.in</h4>
                             </div>
                             <div class="team-social">
@@ -65,7 +64,7 @@ const AboutUs = () => {
                             <div class="team-content">
                                 <h2 className='heading2'>Om Prakash</h2>
                                 <h3 className='heading3'>FrontEND and BackEND DEV</h3>
-                                <p>OM Prakash special skills!</p>
+
                                 <h4>Om.Prakash@iiitg.ac.in</h4>
                             </div>
                             <div class="team-social">
