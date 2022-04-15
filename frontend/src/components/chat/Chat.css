@@ -61,6 +61,7 @@
   .left{
       float: left;
       clear: both;
+      background-color: rgb(231, 221, 172);
   }
   
   .H1{

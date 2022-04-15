@@ -11,7 +11,7 @@ const AgentSignUp = () => {
 
 
     const context = useContext(AlertContext);   // context API for custom alerts
-    const {  addAlert } = context;       // destructuring addAlert from AlertContext
+    const { addAlert } = context;       // destructuring addAlert from AlertContext
 
     let navigate = useNavigate();             // for page navigation
 
@@ -64,7 +64,7 @@ const AgentSignUp = () => {
         <div className='backGround'>
             <Alert />
             <div className='update-container' style={{ width: '40%' }}>
-            <h3 style={{ marginLeft: '30%', margintBottom: "50px" }}>SignUp Form</h3>
+                <h3 style={{ marginLeft: '30%', margintBottom: "50px" }}>SignUp Form</h3>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3" style={{ marginBottom: '30px' }}>
                         <label htmlFor="name" className="form-label">Name</label>
@@ -83,12 +83,12 @@ const AgentSignUp = () => {
                     </div>
                     <div className="mb-3" style={{ marginBottom: '30px' }}>
                         <label htmlFor="workingArea" className="form-label">Area</label>
-                        <input type="text" className="form-control" onChange={onChange} aria-describedby="emailHelp"
+                        <input type="text" pattern="[a-zA-Z]*" className="form-control" onChange={onChange} placeholder="e.g., Guwahati" aria-describedby="emailHelp"
                             id="workingArea" name="workingArea" />
                     </div>
                     <div className="mb-3" style={{ marginBottom: '30px' }}>
-                        <label htmlFor="charges" className="form-label">Charges</label>
-                        <input type="text" className="form-control" onChange={onChange} aria-describedby="emailHelp"
+                        <label htmlFor="charges" className="form-label">Charges(₹)</label>
+                        <input type="text" pattern="^[1-9]+[0-9]*$" className="form-control" onChange={onChange} placeholder="e.g., 1000" aria-describedby="emailHelp"
                             id="charges" name="charges" />
                     </div>
                     <div className="mb-3" style={{ marginBottom: '30px' }}>

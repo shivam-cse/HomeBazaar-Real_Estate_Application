@@ -49,7 +49,7 @@ function Home() {
                         </label>
                     </div>
                 </div>
-                <input className="form-control  mt-10 rounded-pill" type="search" placeholder="Enter Area/Agent For Property" id="area" name='area' onChange={onChange} value={area} aria-label="Search" required />
+                <input className="form-control  mt-10 rounded-pill" type="text" pattern="[a-zA-Z]*" placeholder="Enter Area/Agent For Property" id="area" name='area' onChange={onChange} value={area} aria-label="Search" required />
                 <Link className={`btn btn-primary mx-1 border-search ${type === "" ? "disabled" : ""}`} to={type === "property" ? '/apartmentResult' : '/agentResult'} state={{ area: area }} role="button" aria-disabled="true">Search</Link >
             </form>
             <div className='container'>

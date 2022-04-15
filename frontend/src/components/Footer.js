@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function Footer() {
     return (
         <footer class="footer">
-            
+
             <div class="Footercontainer">
                 <div class="Footerrow">
                     <div class="footer-col">
@@ -26,10 +26,9 @@ function Footer() {
                     <div class="footer-col">
                         <h4>follow us</h4>
                         <div class="social-links">
-                            <Link to="#"><i class="fab fa-facebook-f"></i></Link>
-                            <Link to="#"><i class="fab fa-twitter"></i></Link>
-                            <Link to="#"><i class="fab fa-instagram"></i></Link>
-                            <Link to="#"><i class="fab fa-linkedin-in"></i></Link>
+                            <a target="_blank" href="https://www.linkedin.com/in/om-prakash-4705981a7/" class="social-li"> <i class="fab fa-linkedin-in"></i></a>
+                            <a target="_blank" href="https://github.com/om2002" class="social-github"> <i class="fa-brands fa-github"></i></a>
+                            <a target="_blank" href="https://www.facebook.com/people/Om-Prakash/100014324731492/" class="social-fb"> <i class="fab fa-facebook-f"></i></a>
                         </div>
                     </div>
                 </div>

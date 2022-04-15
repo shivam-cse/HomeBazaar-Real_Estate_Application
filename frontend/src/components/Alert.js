@@ -11,7 +11,7 @@ function ALert() {
     // after 5 sec removing alert
     setTimeout(() => {
         addAlert(null);
-    }, 5000);
+    }, 60000);
 
     // captilize the first letter of word
     const capitalize = (word) => {
