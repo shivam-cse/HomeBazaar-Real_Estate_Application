@@ -69,13 +69,28 @@ Three types of users will be using this application(AGENT, BUYER , SELLER and AD
 
 ### External Interface Requirements
 ### User Interfaces
-    - **Home Page**
-    ![Home](https://user-images.githubusercontent.com/56253080/163601690-ef6e725a-518c-48e3-b22a-4502533efed3.png)
+   - **Home Page**
+![Home](https://user-images.githubusercontent.com/56253080/163601690-ef6e725a-518c-48e3-b22a-4502533efed3.png)
 
-    - **Login**
-    ![login](https://user-images.githubusercontent.com/56253080/163601740-8cae7409-7f7d-43ab-91f7-a5e6d4d79c97.png)
+   - **Login**
+![login](https://user-images.githubusercontent.com/56253080/163601740-8cae7409-7f7d-43ab-91f7-a5e6d4d79c97.png)
 
+   - **Signup**
+![signup](https://user-images.githubusercontent.com/56253080/163601876-e9fb49a7-5d62-478c-b419-d59f8b1b216a.png)
 
+   - **DashBoard** 
+![seller dashboard](https://user-images.githubusercontent.com/56253080/163602256-a346b0bf-110d-4f95-b77c-de7e20d0f2f0.png)
+
+  - **Chatting**
+ ![sellerchat](https://user-images.githubusercontent.com/56253080/163602535-b27bdb75-c225-4422-874d-bc2a01f22665.png)
+
+  - **View Listed Apartment**
+![apartment result](https://user-images.githubusercontent.com/56253080/163602593-8c1cf2e3-7f39-454b-aef3-af300723fda4.png)
+
+  - **Users (Manage by admin)**
+![manageuser](https://user-images.githubusercontent.com/56253080/163602692-d0992019-99fc-426e-bb6e-bb1c11b6939d.png)
+  - **About us**
+![aboutUS](https://user-images.githubusercontent.com/56253080/163602784-e0fd0552-2c63-4c52-aaf3-cba8bd13c64a.png)
 
 ### Software Tools
 - **Database Server**- MongoDB 
