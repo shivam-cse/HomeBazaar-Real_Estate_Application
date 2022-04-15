@@ -65,7 +65,8 @@ Three types of users will be using this application(AGENT, BUYER , SELLER and AD
 - Password and other personal details  are first encrypted and then stored in database
 - Good User friendly User Interface Design
 - Secure access of  data(User profile)
-- 24*7 time availability(of our web application)
+- 24*7 time availability(of our web application)![temp](https://user-images.githubusercontent.com/57717552/163600604-1b2586ab-9fe6-40de-a915-353d8f50ddee.png)
+
 
 ### Software Tools
 - **Database Server**- MongoDB 
