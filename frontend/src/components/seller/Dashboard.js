@@ -42,13 +42,13 @@ export default function Dashboard() {
     }
 
     return (
-        <div style={{overflowY:"hidden", height:"100vh"}} id='background-image'>
+        <div style={{minHeight:"100vh"}} id='background-image'>
             {!loading ?<div>
             <div className='dashboard-top bg-primary text-white'>Dashboard </div>
             <Alert />
             <div className='dashboard'>
-                <div className="row">
-                    <div className="col ">
+                <div className="dash">
+                    <div className="dashboard-left">
                         <div className='profile'>
                             <div className='profile-data'><span>Name: </span>{capitalize(userDetails.name.toLowerCase())}</div>
                             <div className='profile-data'><span>Email Id: </span>{userDetails.email.toLowerCase()}</div>
@@ -69,7 +69,7 @@ export default function Dashboard() {
 
                         </div>
                     </div>
-                    <div className="col" id='chat-left'>
+                    <div className="dashboard-right" id=''>
                        <h2 style={{textAlign:'center', color:'white', background:'rgb(180 22 183 / 47%)'}}>Your chat history</h2>
                        <div className='chat-section' >
                        <Receiver id={userDetails.id} />

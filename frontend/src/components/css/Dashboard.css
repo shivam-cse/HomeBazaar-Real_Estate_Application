@@ -14,7 +14,7 @@
 .profile {
   margin: 5px;
   font-weight: bold;
-  width: 26%;
+  width: 52%;
   border-radius: 10px;
   /* min-width: 25vw; */
   background-color: rgb(235 236 236 / 50%);
@@ -101,4 +101,36 @@
   max-height: 500px;
   /* left: 900px; */
 
+}
+
+.dash{
+  width: 100%;
+}
+.dashboard-left{
+  width: 40%;
+  float: left;
+}
+.dashboard-right{
+  background-color: rgb(22 56 19 / 47%);
+  width: 33%;
+  float: right;
+  margin-right: 5px;
+ 
+}
+
+@media (max-width: 768px){
+  .dash{
+    display: flex;
+    flex-direction: column;
+    
+    align-items:center;
+  }
+  .dashboard-left{
+    float: none;
+    width: 100%;
+  }
+  .dashboard-right{
+    float: none;
+    width: 100%;
+  }
 }

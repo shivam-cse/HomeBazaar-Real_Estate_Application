@@ -48,6 +48,8 @@ import Chat from './components/chat/Chat';
 import AgentResult from './components/agent/AgentResult';
 import ApartementResult from './components/apartment/ApartementResult';
 import Property from './components/apartment/Property';
+import Footer from './components/Footer';
+
 
 function App() {
   return (
@@ -93,7 +95,9 @@ function App() {
               <Route exact path="/chat" element={<Chat />} />
               <Route exact path="/agentResult" element={<AgentResult />} />
             </Routes>
+            <Footer/>
           </Fragment>
+          
         </BrowserRouter>
       </AlertState>
     </>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import '../css/Dashboard.css'
 import { NavLink ,useNavigate} from 'react-router-dom';
 import Alert from '../Alert'
+import Footer from '../Footer';
 export default function Dashboard() {
     const host = "http://localhost:5000";     // HOST address
 
@@ -74,9 +75,7 @@ export default function Dashboard() {
                     </div>
                 </div>
             </div>
-
-
-
+            <Footer/>
         </div>
 
     )
