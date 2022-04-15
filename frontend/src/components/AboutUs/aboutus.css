@@ -69,12 +69,12 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 0%, rgba(3
 .aboutuscontainer .section-title h1::before{
     left: 30%;
 }
-.row{    /* making cards flexbox (center ) */
+.custom-row{    /* making cards flexbox (center ) */
     display: flex;
    justify-content: space-evenly;
    align-items: center;
 }
-.column{
+.custom-column{
     position: relative;
     width: 100%;
     padding-right: 15px;
@@ -178,6 +178,12 @@ margin-bottom: 0;
 }
 .team .team-social a.social-yt{
     background: #c4302b;
+}
+.team .team-social a.social-github{
+    background: #111010;
+}
+.team .team-social a.social-github:hover{
+    background: #565353;
 }
 .team .team-social a:last-child{
     margin-right: 0;

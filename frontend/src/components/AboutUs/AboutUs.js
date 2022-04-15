@@ -18,8 +18,8 @@ const AboutUs = () => {
                         smooth manner along with security and best user experience</h2>
                 </div>
 
-                <div class="row">
-                    <div class="column">
+                <div class="custom-row row">
+                    <div class="custom-column column">
                         <div class="team">
                             <div class="team-img">
                                 <img src={team1img} alt="Team Image" className='team-img' />
@@ -31,14 +31,14 @@ const AboutUs = () => {
                                 <h4>Shivam.sahu@iiitg.ac.in</h4>
                             </div>
                             <div class="team-social">
-                                <a target="_blank"  href="https://www.linkedin.com/in/shivam-sahu-665389191/" class="social-li"> <i class="fab fa-linkedin-in"></i></a>
+                                <a target="_blank" href="https://www.linkedin.com/in/shivam-sahu-665389191/" class="social-li"> <i class="fab fa-linkedin-in"></i></a>
                                 <a target="_blank" href="https://github.com/shivam-cse" class="social-github"> <i class="fa-brands fa-github"></i></a>
                                 <a target="_blank" href="https://www.facebook.com/shivam.sahu.54584982/" class="social-fb"> <i class="fab fa-facebook-f"></i></a>
                             </div>
                         </div>
                     </div>
 
-                    <div class="column">
+                    <div class="custom-column column">
                         <div class="team">
                             <div class="team-img">
                                 <img src={team2img} alt="Team Image" className='team-img' />
@@ -57,7 +57,7 @@ const AboutUs = () => {
                         </div>
                     </div>
 
-                    <div class="column">
+                    <div class="custom-column column">
                         <div class="team">
                             <div class="team-img">
                                 <img src={team3img} alt="Team Image" className='team-img' />

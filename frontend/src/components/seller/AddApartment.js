@@ -10,7 +10,7 @@ export default function UpdateProfile() {
 
     //it is for handle the state of Adding apartment
     const [addApartment, setaddApartment] = useState({ address: "", area: "", bedrooms: "", size: "", price: "" });
-   //context api for alert message
+    //context api for alert message
     const context = useContext(AlertContext);
     const { addAlert } = context;  //// Destructuring alert and addAlert  from context api
     //state to maintain apartment type 
@@ -66,11 +66,11 @@ export default function UpdateProfile() {
                     <div className='update-top bg-primary text-white'>Add Apartment </div>
                     <div className="mb-3">
                         <label htmlFor="name" className="form-label">Enter address</label>
-                        <input type="text" className="form-control" id="name" name='address' value={addApartment.address} onChange={onChange} required minLength={3} />
+                        <input type="text" className="form-control" id="name" name='address' value={addApartment.address} onChange={onChange} required minLength={15} />
                     </div>
                     <div className="mb-3">
                         <label htmlFor="name" className="form-label">Enter area</label>
-                        <input type="text" className="form-control" id="name" name='area' value={addApartment.area} onChange={onChange} required minLength={3} />
+                        <input type="text" pattern="[a-zA-Z]*" className="form-control" id="name" name='area' placeholder="e.g., Guwahati" value={addApartment.area} onChange={onChange} required minLength={3} />
                     </div>
                     <select className="mb-3 form-select" aria-label="Default select example" onChange={setApartmentType} required>
                         <option value="">Select Type</option>
@@ -79,15 +79,15 @@ export default function UpdateProfile() {
                     </select>
                     <div className="mb-3">
                         <label htmlFor="name" className="form-label">Enter no of bedrooms</label>
-                        <input type="number" className="form-control" id="name" name='bedrooms' value={addApartment.bedrooms} onChange={onChange} required minLength={3} />
+                        <input type="text" pattern="^[1-9]+[0-9]*$" className="form-control" id="name" name='bedrooms' placeholder="e.g., 1" value={addApartment.bedrooms} onChange={onChange} required />
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="name" className="form-label">Enter size</label>
-                        <input type="number" className="form-control" id="name" name='size' value={addApartment.size} onChange={onChange} required minLength={3} />
+                        <label htmlFor="name" className="form-label">Enter size(sqft.)</label>
+                        <input type="text" pattern="^[1-9]+[0-9]*$" className="form-control" id="name" name='size' placeholder="e.g., 100" value={addApartment.size} onChange={onChange} required />
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="name" className="form-label">Enter Price</label>
-                        <input type="number" className="form-control" id="name" name='price' value={addApartment.price} onChange={onChange} required minLength={3} />
+                        <label htmlFor="name" className="form-label">Enter Price( ₹)</label>
+                        <input type="text" pattern="^[1-9]+[0-9]*$" className="form-control" id="name" name='price' placeholder="e.g., 1500₹" value={addApartment.price} onChange={onChange} required />
                     </div>
                     <button type="submit" className="btn btn-success" style={{ marginTop: '20px', marginLeft: '40%' }}>Add</button>
                 </div>
